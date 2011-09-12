@@ -56,39 +56,39 @@ import ux.usercontrol.SimulatorController.Mode;
  * {@link publishersubscriber.SimulatorPublisher}, and thus, has its
  * {@link publishersubscriber.SimulatorSubscriber#update(SimulatorPublisher)}
  * method called automatically by a simulator publisher. The graphical display
- * is also a {@code SimulatorControlGui}- a user interface that is able to 
+ * is also a {@code SimulatorControlGui}- a user interface that is able to
  * change the state of the simulation. Being a {@code SelectionPublisher}, the
- * graphical display informs any subscribers of any simulation item, such as a 
- * robot or terrain, that has been selected with the mouse pointer in the 
+ * graphical display informs any subscribers of any simulation item, such as a
+ * robot or terrain, that has been selected with the mouse pointer in the
  * graphical display. This allows any {@code SelectionSubscribers} to monitor
- * what simulation items the user clicks on.  
+ * what simulation items the user clicks on.
  *
  */
-public class GraphicalDisplay extends JPanel implements SimulatorSubscriber, 
+public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
                                     SelectionPublisher, SimulatorControlGui {
     // The controller to use to control the simulator.
     private SimulatorController controller;
-    
+
     // The publisher representing the underlying simulator.
     private SimulatorPublisher simulatorPublisher;
-    
+
     // Subscribers to update when a simulation item is selected.
     private Collection<SelectionSubscriber> subscribers = new HashSet<SelectionSubscriber>();
-    
+
     // Simulation Items.
     private Collection<? extends Robot>   robots;
     private Collection<? extends Cup>  inanimates;
     private Collection<? extends Terrain> terrain;
-    
+
     // Swing components.
     private JLabel                                 timeElapsedLabel = new JLabel();
     private String                                 mousePositionDisplay;
     private Point2D.Double                         mousePosition;
     private JLabel                                 mousePositionLabel = new JLabel();
     private Environment                            environment;
-    
-    // The displays painters: these are delegated a role in painting on the 
-    // panel's canvas. 
+
+    // The displays painters: these are delegated a role in painting on the
+    // panel's canvas.
     private EnvironmentPainter                     environmentPainter;
     private ItemPainter                            itemPainter;
     private RobotPainter                           robotPainter;
@@ -98,8 +98,10 @@ public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
     private VelocityVectorPainter                  velocityVectorPainter;
     private RigidBody                              selectedItem;
     private RigidBody                              draggedItem;
-    
-    // Painter switches- used to enable and disable individual painters. 
+    private double                                 draggingOffsetX,
+                                                   draggingOffsetY;
+
+    // Painter switches- used to enable and disable individual painters.
     private boolean isPaintEnvironmentOn =  true;
     private boolean isPaintTerrainOn     =  true;
     private boolean isPaintItemOn        =  true;
@@ -112,36 +114,36 @@ public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
     /**
      * Constructs a GraphicalDisplay and subscribes the display to
      * the given SimulatorPublisher It also informs the given controller that
-     * it will use the controller to control the simulator and wishes to be 
+     * it will use the controller to control the simulator and wishes to be
      * informed of any changes of state of the simulator.
      *
      * @param   simulatorPublisher  the SimulatorPublisher to subscribe to.
-     * @param   controller          the controller to use to control the 
+     * @param   controller          the controller to use to control the
      *                              simulator.
      */
     public GraphicalDisplay(SimulatorPublisher simulatorPublisher, SimulatorController controller) {
         this.controller = controller;
         this.simulatorPublisher = simulatorPublisher;
         simulatorPublisher.addSubscriber(this);
-        
+
         // Retrieve the simulation items from the simulator.
         robots      = simulatorPublisher.getRobots();
         inanimates      = simulatorPublisher.getThings();
         environment = simulatorPublisher.getEnvironment();
         terrain     = environment.getTerrain();
-        
+
         // Give the panel a layout. This is needed to position components such
         // as the timeElapsedLabel.
         setLayout(new MigLayout());
         add(timeElapsedLabel);
         mousePositionDisplay = "";
         add(mousePositionLabel);
- 
+
         setPreferredSize(new Dimension(500,500));
-        
+
         // Initialise the painters.
         setDefaultPainters();
-        
+
         // Add mouse listeners to the panel to enable the selecting and dragging
         // functionality.
         addMouseListener(new HighlightedObjectListener());
@@ -177,10 +179,10 @@ public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
         graphics2D.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        
+
         // Depending on whether a painter is enabled, use the painters to paint
-        // on the canvas. 
-        
+        // on the canvas.
+
         if(isPaintEnvironmentOn) {
             if (environment != null) {
                 environmentPainter.paint(environment, getShapeTransform(), graphics2D);
@@ -198,13 +200,13 @@ public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
                 itemPainter.paint(thing, getShapeTransform(), graphics2D);
             }
         }
-        
+
         if(isPaintRobotOn) {
             for (Robot robot : robots) {
                 robotPainter.paint(robot, getShapeTransform(), graphics2D);
             }
         }
-        
+
         if(isPaintSensorOn && simulatorPublisher.getScheduler().isRunning()) {
             for (Robot robot : robots) {
                 sensorPainter.paint(robot, getShapeTransform(), graphics2D);
@@ -216,7 +218,7 @@ public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
                 velocityVectorPainter.paint(robot, getShapeTransform(), graphics2D);
             }
         }
-        
+
         if(isPaintSelectedOn) {
            if (selectedItem != null) {
                 selectedPainter.paint(selectedItem, getShapeTransform(), graphics2D);
@@ -229,12 +231,12 @@ public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
     }
 
     /**
-     * This is called by a SimulatorPublisher that the GraphicalDisplay is 
+     * This is called by a SimulatorPublisher that the GraphicalDisplay is
      * subscribed to. The display will be updated to reflect the changes to the
      * simulator represented by the SimulatorPublisher.
      *
      * @param simulatorPublisher    the SimulatorPublisher which is calling the
-     *                              update method. 
+     *                              update method.
      */
     public void update(SimulatorPublisher simulatorPublisher) {
         // Update all the collections of simulator objects.
@@ -247,12 +249,12 @@ public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
         double timeElapsed       = simulatorPublisher.getTimeElapsed();
         String timeElapsedString = new DecimalFormat("#.##").format(timeElapsed);
         timeElapsedLabel.setText("Time elapsed: " + timeElapsedString);
-        
+
         if(simulatorPublisher.isInSimulator(selectedItem))
             this.setPaintSelectedOn(true);
-        else                
+        else
             this.setPaintSelectedOn(false);
-        
+
         // Cause the panel to refresh.
         revalidate();
         repaint();
@@ -262,7 +264,7 @@ public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
      * Returns an AffineTransform to scale all shapes in the drawing area before
      * they are drawn or filled. The transform transforms the shape into GUI
      * coordinates ( (0,0) starts in the top left) and scales the shapes so that
-     * they fit on the panel while maintaining their aspect ratio. 
+     * they fit on the panel while maintaining their aspect ratio.
      */
     private AffineTransform getShapeTransform() {
 
@@ -279,14 +281,14 @@ public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
         // factor is chosen and applied to both shape coordinates to maintain
         // the shapes' size ratios while fitting in the drawing area.
         // The max x and y coordinates are used instead of width and height, as
-        // the environment may not be centered at the origin. 
+        // the environment may not be centered at the origin.
         double environmentWidth    = environment.getBounds().getMaxX();
         double environmentHeight   = environment.getBounds().getMaxY();
         double widthScalingFactor  = panelWidth / environmentWidth;
         double heightScalingFactor = panelHeight / environmentHeight;
         double scalingFactor       = ((widthScalingFactor < heightScalingFactor)
                                     ? widthScalingFactor : heightScalingFactor);
-        
+
         // Create the transform.
         AffineTransform transform = new AffineTransform();
 
@@ -297,10 +299,10 @@ public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
         // quadrant coordinate system.
         final double inset = 0.99;            //scales the image so it fits inside the display with a small buffer
         final double halfInset = (1-inset)/2; //used in translation to move the image away from the bottom and left sides
-        
+
         transform.scale(inset, -inset);
         transform.translate(halfInset*panelWidth, - ( (1+halfInset) *panelHeight));
-        
+
         // Scale the shapes to fit the size of the drawing panel.
         transform.scale(scalingFactor, scalingFactor);
 
@@ -309,8 +311,8 @@ public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
 
     /**
      * Inform any SelectionSubscribers subscribed to the graphical display that
-     * the given geometric shape has been selected. 
-     * 
+     * the given geometric shape has been selected.
+     *
      * @param selectedPaintable the geometric shape that has been selected.
      */
     private void updateSubscribers(Entity selectedPaintable) {
@@ -340,12 +342,12 @@ public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
 
     /**
      * HighlightedObjectListener is used to detect when an item is selected.
-     * 
+     *
      */
     private class HighlightedObjectListener extends MouseAdapter {
         /**
-         * Detects whether there is an item at the same location as where the 
-         * mouse was pressed. All SelectionSubscribers subscribed to the 
+         * Detects whether there is an item at the same location as where the
+         * mouse was pressed. All SelectionSubscribers subscribed to the
          * graphical display are notified of a selection, if one occurs.
          */
         @Override
@@ -354,8 +356,8 @@ public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
             int mouseY = event.getY();
 
             selectedItem = null;
-            
-            // Create a new collection with enough space for all objects 
+
+            // Create a new collection with enough space for all objects
             // (faster than allocating size when objects are added).
             Collection<RigidBody> simulationObjects = new ArrayList<RigidBody>();
 
@@ -363,11 +365,11 @@ public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
             simulationObjects.addAll(inanimates);
             simulationObjects.addAll(environment.getTerrain());
 
-            // Check every simulation object to see if the mouse was pressed 
+            // Check every simulation object to see if the mouse was pressed
             // inside it.
             for (RigidBody simulationObject : simulationObjects) {
                 // The shape must first be converted to the GUI coordinates.
-                Shape shapeInGuiCoords = 
+                Shape shapeInGuiCoords =
                    getShapeTransform().createTransformedShape(simulationObject);
 
                 if (shapeInGuiCoords.contains(mouseX, mouseY)) {
@@ -378,7 +380,7 @@ public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
             updateSubscribers(selectedItem);
         }
     }
-    
+
     /**
      * Detects an object being dragged and moves it appropriately.
      *
@@ -394,9 +396,22 @@ public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
          */
         @Override
         public void mousePressed(MouseEvent e) {
-            selectObjectAt(e.getX(), e.getY());   
+            selectObjectAt(e.getX(), e.getY());
             if(selectedItem != null){
                 controller.pauseSimulator();
+                AffineTransform af = getShapeTransform();
+                try{
+                    af.invert();
+                } catch(NoninvertibleTransformException ex) {
+
+                }
+                XPoint env = new XPoint(e.getX(), e.getY());
+                selectedItem.getCom();
+
+                af.transform(env, env);
+                draggingOffsetX = selectedItem.getX() - env.getX();
+                draggingOffsetY = selectedItem.getY() - env.getY();
+                System.out.println("Offset = " + draggingOffsetX + ',' + draggingOffsetY);
             }
         }
         /**
@@ -415,23 +430,19 @@ public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
                 draggedItem = selectedItem;
                 // Find how the environment is modified to the canvas
                 AffineTransform af = getShapeTransform();
-                try{
-                    af.invert();
-                }
-                catch(NoninvertibleTransformException ex){
-
-                }
+                try{af.invert();} catch(NoninvertibleTransformException ex) {}
                 XPoint env = new XPoint(e.getX(), e.getY());
-                
-                af.transform(env, env); 
+                selectedItem.getCom();
+
+                af.transform(env, env);
 
                 envX = env.getX()> environment.getWidth() ? environment.getWidth() : env.getX() < 0 ? 0 : env.getX();
                 envY = env.getY() > environment.getHeight() ? environment.getHeight() : env.getY() < 0 ? 0 : env.getY();
-                
-                draggedItem.place(envX, envY);
+
+                draggedItem.place(envX + draggingOffsetX, envY + draggingOffsetY);
             }
         }
-        
+
         /**
          * Restarts the simulator once the mouse is released.
          *
@@ -441,11 +452,11 @@ public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
         public void mouseReleased(MouseEvent e) {
             controller.startSimulator();
             }
-        
-        
+
+
         private void selectObjectAt(double x, double y){
             selectedItem = null;
-            
+
             // Create a new collection with enough space for all objects.
             Collection<RigidBody> simulationObjects = new ArrayList<RigidBody>();
 
@@ -489,7 +500,7 @@ public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
            String xPointStr = Integer.toString((int)mousePosition.x);
            String yPointStr = Integer.toString((int)mousePosition.y);
 
-           mousePositionDisplay = "(" + xPointStr + "," + yPointStr + ")";           
+           mousePositionDisplay = "(" + xPointStr + "," + yPointStr + ")";
 
            mousePosition.setLocation(e.getX(), e.getY());
         }
@@ -504,26 +515,26 @@ public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
     @Override
     public void setStarted() {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void setPaused() {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void setMode(Mode mode) {
     }
-    
-    
-    
+
+
+
     /**
-     * Sets the graphical display's environment painter to the given 
+     * Sets the graphical display's environment painter to the given
      * EnvironmentPainter.
-     * 
-     * @param environmentPainter    the painter to set as the display's 
+     *
+     * @param environmentPainter    the painter to set as the display's
      *                              environment painter.
      */
     public void setEnvironmentPainter(EnvironmentPainter environmentPainter) {
@@ -531,10 +542,10 @@ public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
     }
 
     /**
-     * Sets the graphical display's 'selected' painter to the given 
+     * Sets the graphical display's 'selected' painter to the given
      * SelectedPainter.
-     * 
-     * @param selectedPainter   the painter to set as the display's 
+     *
+     * @param selectedPainter   the painter to set as the display's
      *                          'selected' painter.
      */
     public void setSelectedPainter(SelectedPainter selectedPainter) {
@@ -542,21 +553,21 @@ public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
     }
 
     /**
-     * Sets the graphical display's robot painter to the given 
+     * Sets the graphical display's robot painter to the given
      * RobotPainter.
-     * 
-     * @param robotPainter  the painter to set as the display's 
+     *
+     * @param robotPainter  the painter to set as the display's
      *                      robot painter.
      */
     public void setRobotPainter(RobotPainter robotPainter) {
         this.robotPainter = robotPainter;
     }
-    
+
     /**
-     * Sets the graphical display's sensor painter to the given 
+     * Sets the graphical display's sensor painter to the given
      * SensorPainter.
-     * 
-     * @param sensorPainter     the painter to set as the display's 
+     *
+     * @param sensorPainter     the painter to set as the display's
      *                          sensor painter.
      */
     public void setSensorPainter(SensorPainter sensorPainter) {
@@ -564,10 +575,10 @@ public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
     }
 
     /**
-     * Sets the graphical display's terrain painter to the given 
+     * Sets the graphical display's terrain painter to the given
      * TerrainPainter.
-     * 
-     * @param terrainPainter    the painter to set as the display's 
+     *
+     * @param terrainPainter    the painter to set as the display's
      *                          terrain painter.
      */
     public void setTerrainPainter(TerrainPainter terrainPainter) {
@@ -575,38 +586,38 @@ public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
     }
 
     /**
-     * Sets the graphical display's item painter to the given 
+     * Sets the graphical display's item painter to the given
      * ItemPainter.
-     * 
-     * @param itemPainter   the painter to set as the display's 
+     *
+     * @param itemPainter   the painter to set as the display's
      *                      item painter.
      */
     public void setItemPainter(ItemPainter itemPainter) {
         this.itemPainter = itemPainter;
     }
-    
+
     /**
      * Returns whether the environment painter is currently enabled.
-     * 
+     *
      * @return
      */
     public boolean isPaintEnvironmentOn() {
         return isPaintEnvironmentOn;
     }
-    
+
 
     /**
      * Enables or disables the environment painter.
-     * 
+     *
      * @param isPaintEnvironmentOn  whether to enable or disable the painter.
      */
     public void setPaintEnvironmentOn(boolean isPaintEnvironmentOn) {
         this.isPaintEnvironmentOn = isPaintEnvironmentOn;
     }
-    
+
     /**
      * Returns whether the terrain painter is currently enabled.
-     * 
+     *
      * @return
      */
     public boolean isPaintTerrainOn() {
@@ -615,7 +626,7 @@ public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
 
     /**
      * Enables or disables the terrain painter.
-     * 
+     *
      * @param isPaintTerrainOn  whether to enable or disable the painter.
      */
     public void setPaintTerrainOn(boolean isPaintTerrainOn) {
@@ -624,7 +635,7 @@ public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
 
     /**
      * Returns whether the item painter is currently enabled.
-     * 
+     *
      * @return
      */
     public boolean isPaintItemOn() {
@@ -633,7 +644,7 @@ public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
 
     /**
      * Enables or disables the item painter.
-     * 
+     *
      * @param isPaintItemOn  whether to enable or disable the painter.
      */
     public void setPaintItemOn(boolean isPaintItemOn) {
@@ -642,7 +653,7 @@ public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
 
     /**
      * Returns whether the robot painter is currently enabled.
-     * 
+     *
      * @return
      */
     public boolean isPaintRobotOn() {
@@ -651,7 +662,7 @@ public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
 
     /**
      * Enables or disables the robot painter.
-     * 
+     *
      * @param isPaintRobotOn  whether to enable or disable the painter.
      */
     public void setPaintRobotOn(boolean isPaintRobotOn) {
@@ -660,34 +671,34 @@ public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
 
     /**
      * Returns whether the sensor painter is currently enabled.
-     * 
+     *
      * @return
      */
     public boolean isPaintSensorOn() {
         return this.isPaintSensorOn;
     }
-    
+
     /**
      * Enables or disables the sensor painter.
-     * 
+     *
      * @param isPaintSensorOn  whether to enable or disable the painter.
      */
     public void setPaintSensorOn(boolean isPaintSensorOn) {
         this.isPaintSensorOn = isPaintSensorOn;
     }
-    
+
     /**
      * Returns whether the velocity painter is currently enabled.
-     * 
+     *
      * @return
      */
     public boolean isPaintVelocityVectorOn() {
         return this.isPaintVelocityVectorOn;
     }
-    
+
     /**
      * Enables or disables the sensor painter.
-     * 
+     *
      * @param isPaintVelocityVectorOn whether to enable or disable the painter.
      */
     public void setPaintVelocityVectorOn(boolean isPaintVelocityVectorOn) {
@@ -696,7 +707,7 @@ public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
 
     /**
      VelocityVector* Returns whether the 'selected' painter is currently enabled.
-     * 
+     *
      * @return
      */
     public boolean isPaintSelectedOn() {
@@ -705,7 +716,7 @@ public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
 
     /**
      * Enables or disables the 'selected' painter.
-     * 
+     *
      * @param isPaintSelectedOn whether to enable or disable the painter.
      */
     public void setPaintSelectedOn(boolean isPaintSelectedOn) {
