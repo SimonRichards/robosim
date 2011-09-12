@@ -1,0 +1,577 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BugCollection version="1.3.9" sequence="0" timestamp="1311120408754" analysisTimestamp="1311120473116" release="">
+  <Project projectName="simRobot">
+    <Jar>D:\Users\Simon\Documents\src\team2\src\trunk\build\classes</Jar>
+    <SrcDir>D:\Users\Simon\Documents\src\team2\src\trunk\src</SrcDir>
+    <SuppressionFilter>
+      <LastVersion value="-1" relOp="NEQ"/>
+    </SuppressionFilter>
+  </Project>
+  <BugInstance type="DE_MIGHT_IGNORE" priority="2" abbrev="DE" category="BAD_PRACTICE">
+    <Class classname="simulation.SimulationBuilder">
+      <SourceLine classname="simulation.SimulationBuilder" sourcefile="SimulationBuilder.java" sourcepath="simulation/SimulationBuilder.java"/>
+    </Class>
+    <Method classname="simulation.SimulationBuilder" name="setUp1" signature="(Lsimulation/Simulator;)V" isStatic="true">
+      <SourceLine classname="simulation.SimulationBuilder" start="23" end="80" startBytecode="0" endBytecode="171" sourcefile="SimulationBuilder.java" sourcepath="simulation/SimulationBuilder.java"/>
+    </Method>
+    <Class classname="javax.script.ScriptException" role="CLASS_EXCEPTION">
+      <SourceLine classname="javax.script.ScriptException"/>
+    </Class>
+    <SourceLine classname="simulation.SimulationBuilder" start="79" end="79" startBytecode="41" endBytecode="41" sourcefile="SimulationBuilder.java" sourcepath="simulation/SimulationBuilder.java"/>
+  </BugInstance>
+  <BugInstance type="SE_NO_SERIALVERSIONID" priority="2" abbrev="SnVI" category="BAD_PRACTICE">
+    <Class classname="simulation.Simulator">
+      <SourceLine classname="simulation.Simulator" sourcefile="Simulator.java" sourcepath="simulation/Simulator.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="SE_TRANSIENT_FIELD_NOT_RESTORED" priority="2" abbrev="Se" category="BAD_PRACTICE">
+    <Class classname="simulation.Simulator">
+      <SourceLine classname="simulation.Simulator" sourcefile="Simulator.java" sourcepath="simulation/Simulator.java"/>
+    </Class>
+    <Field classname="simulation.Simulator" name="rand" signature="Ljava/util/Random;" isStatic="false">
+      <SourceLine classname="simulation.Simulator" sourcefile="Simulator.java" sourcepath="simulation/Simulator.java"/>
+    </Field>
+  </BugInstance>
+  <BugInstance type="SE_TRANSIENT_FIELD_NOT_RESTORED" priority="2" abbrev="Se" category="BAD_PRACTICE">
+    <Class classname="simulation.Simulator">
+      <SourceLine classname="simulation.Simulator" sourcefile="Simulator.java" sourcepath="simulation/Simulator.java"/>
+    </Class>
+    <Field classname="simulation.Simulator" name="subscribers" signature="Ljava/util/Collection;" isStatic="false">
+      <SourceLine classname="simulation.Simulator" sourcefile="Simulator.java" sourcepath="simulation/Simulator.java"/>
+    </Field>
+  </BugInstance>
+  <BugInstance type="BC_IMPOSSIBLE_DOWNCAST_OF_TOARRAY" priority="1" abbrev="BC" category="CORRECTNESS">
+    <Class classname="simulation.geometry.GeometricShape">
+      <SourceLine classname="simulation.geometry.GeometricShape" sourcefile="GeometricShape.java" sourcepath="simulation/geometry/GeometricShape.java"/>
+    </Class>
+    <Method classname="simulation.geometry.GeometricShape" name="getArea" signature="()D" isStatic="false">
+      <SourceLine classname="simulation.geometry.GeometricShape" start="238" end="246" startBytecode="0" endBytecode="47" sourcefile="GeometricShape.java" sourcepath="simulation/geometry/GeometricShape.java"/>
+    </Method>
+    <Type descriptor="[Ljava/lang/Object;" role="TYPE_FOUND"/>
+    <Type descriptor="[Lsimulation/geometry/XPoint;" role="TYPE_EXPECTED"/>
+    <Method classname="java.util.LinkedList" name="toArray" signature="()[Ljava/lang/Object;" isStatic="false" role="METHOD_RETURN_VALUE_OF">
+      <SourceLine classname="java.util.LinkedList"/>
+    </Method>
+    <SourceLine classname="simulation.geometry.GeometricShape" start="240" end="240" startBytecode="11" endBytecode="11" sourcefile="GeometricShape.java" sourcepath="simulation/geometry/GeometricShape.java"/>
+  </BugInstance>
+  <BugInstance type="DB_DUPLICATE_BRANCHES" priority="2" abbrev="DB" category="STYLE">
+    <Class classname="simulation.geometry.RigidBody">
+      <SourceLine classname="simulation.geometry.RigidBody" sourcefile="RigidBody.java" sourcepath="simulation/geometry/RigidBody.java"/>
+    </Class>
+    <Method classname="simulation.geometry.RigidBody" name="collideWith" signature="(Lsimulation/inanimates/Inanimate;)Lsimulation/geometry/Collision;" isStatic="false">
+      <SourceLine classname="simulation.geometry.RigidBody" start="220" end="241" startBytecode="0" endBytecode="274" sourcefile="RigidBody.java" sourcepath="simulation/geometry/RigidBody.java"/>
+    </Method>
+    <SourceLine classname="simulation.geometry.RigidBody" start="226" end="227" startBytecode="17" endBytecode="44" sourcefile="RigidBody.java" sourcepath="simulation/geometry/RigidBody.java"/>
+    <SourceLine classname="simulation.geometry.RigidBody" start="230" end="231" startBytecode="47" endBytecode="72" sourcefile="RigidBody.java" sourcepath="simulation/geometry/RigidBody.java"/>
+  </BugInstance>
+  <BugInstance type="NP_DEREFERENCE_OF_READLINE_VALUE" priority="2" abbrev="NP" category="STYLE">
+    <Class classname="simulation.robot.Robot">
+      <SourceLine classname="simulation.robot.Robot" sourcefile="Robot.java" sourcepath="simulation/robot/Robot.java"/>
+    </Class>
+    <Method classname="simulation.robot.Robot" name="&lt;init&gt;" signature="(Ljava/lang/String;Ljava/lang/String;Lsimulation/geometry/XPoint;DDDLjava/awt/Color;DD)V" isStatic="false">
+      <SourceLine classname="simulation.robot.Robot" start="132" end="182" startBytecode="0" endBytecode="865" sourcefile="Robot.java" sourcepath="simulation/robot/Robot.java"/>
+    </Method>
+    <LocalVariable name="className" register="18" pc="204" role="LOCAL_VARIABLE_VALUE_OF"/>
+    <SourceLine classname="simulation.robot.Robot" start="155" end="155" startBytecode="206" endBytecode="206" sourcefile="Robot.java" sourcepath="simulation/robot/Robot.java"/>
+  </BugInstance>
+  <BugInstance type="URF_UNREAD_FIELD" priority="2" abbrev="UrF" category="PERFORMANCE">
+    <Class classname="simulation.robot.behaviour.Drive">
+      <SourceLine classname="simulation.robot.behaviour.Drive" sourcefile="Drive.java" sourcepath="simulation/robot/behaviour/Drive.java"/>
+    </Class>
+    <Field classname="simulation.robot.behaviour.Drive" name="distanceSetFlag" signature="Z" isStatic="false">
+      <SourceLine classname="simulation.robot.behaviour.Drive" sourcefile="Drive.java" sourcepath="simulation/robot/behaviour/Drive.java"/>
+    </Field>
+    <SourceLine classname="simulation.robot.behaviour.Drive" start="23" end="23" startBytecode="29" endBytecode="29" sourcefile="Drive.java" sourcepath="simulation/robot/behaviour/Drive.java"/>
+  </BugInstance>
+  <BugInstance type="UUF_UNUSED_FIELD" priority="2" abbrev="UuF" category="PERFORMANCE">
+    <Class classname="simulation.robot.behaviour.Drive">
+      <SourceLine classname="simulation.robot.behaviour.Drive" sourcefile="Drive.java" sourcepath="simulation/robot/behaviour/Drive.java"/>
+    </Class>
+    <Field classname="simulation.robot.behaviour.Drive" name="distanceToTravel" signature="D" isStatic="false">
+      <SourceLine classname="simulation.robot.behaviour.Drive" sourcefile="Drive.java" sourcepath="simulation/robot/behaviour/Drive.java"/>
+    </Field>
+  </BugInstance>
+  <BugInstance type="UUF_UNUSED_FIELD" priority="2" abbrev="UuF" category="PERFORMANCE">
+    <Class classname="simulation.robot.behaviour.Drive">
+      <SourceLine classname="simulation.robot.behaviour.Drive" sourcefile="Drive.java" sourcepath="simulation/robot/behaviour/Drive.java"/>
+    </Class>
+    <Field classname="simulation.robot.behaviour.Drive" name="mode" signature="Lsimulation/robot/behaviour/Drive$modes;" isStatic="false">
+      <SourceLine classname="simulation.robot.behaviour.Drive" sourcefile="Drive.java" sourcepath="simulation/robot/behaviour/Drive.java"/>
+    </Field>
+  </BugInstance>
+  <BugInstance type="URF_UNREAD_FIELD" priority="2" abbrev="UrF" category="PERFORMANCE">
+    <Class classname="simulation.robot.behaviour.MoveToRobot">
+      <SourceLine classname="simulation.robot.behaviour.MoveToRobot" sourcefile="MoveToRobot.java" sourcepath="simulation/robot/behaviour/MoveToRobot.java"/>
+    </Class>
+    <Field classname="simulation.robot.behaviour.MoveToRobot" name="camera" signature="Lsimulation/sensors/RobotCamera;" isStatic="false">
+      <SourceLine classname="simulation.robot.behaviour.MoveToRobot" sourcefile="MoveToRobot.java" sourcepath="simulation/robot/behaviour/MoveToRobot.java"/>
+    </Field>
+    <SourceLine classname="simulation.robot.behaviour.MoveToRobot" start="57" end="57" startBytecode="54" endBytecode="54" sourcefile="MoveToRobot.java" sourcepath="simulation/robot/behaviour/MoveToRobot.java"/>
+  </BugInstance>
+  <BugInstance type="NM_CLASS_NAMING_CONVENTION" priority="2" abbrev="Nm" category="BAD_PRACTICE">
+    <Class classname="simulation.sensors.Camera$scannableObjects">
+      <SourceLine classname="simulation.sensors.Camera$scannableObjects" sourcefile="Camera.java" sourcepath="simulation/sensors/Camera.java"/>
+    </Class>
+  </BugInstance>
+  <BugInstance type="SS_SHOULD_BE_STATIC" priority="2" abbrev="SS" category="PERFORMANCE">
+    <Class classname="simulation.sensors.Encoder">
+      <SourceLine classname="simulation.sensors.Encoder" sourcefile="Encoder.java" sourcepath="simulation/sensors/Encoder.java"/>
+    </Class>
+    <Field classname="simulation.sensors.Encoder" name="MAX_RESOLUTION" signature="I" isStatic="false">
+      <SourceLine classname="simulation.sensors.Encoder" sourcefile="Encoder.java" sourcepath="simulation/sensors/Encoder.java"/>
+    </Field>
+    <SourceLine classname="simulation.sensors.Encoder" start="32" end="32" startBytecode="23" endBytecode="23" sourcefile="Encoder.java" sourcepath="simulation/sensors/Encoder.java"/>
+  </BugInstance>
+  <BugInstance type="DMI_INVOKING_TOSTRING_ON_ARRAY" priority="1" abbrev="USELESS_STRING" category="CORRECTNESS">
+    <Class classname="simulation.sensors.RobotRadar">
+      <SourceLine classname="simulation.sensors.RobotRadar" sourcefile="RobotRadar.java" sourcepath="simulation/sensors/RobotRadar.java"/>
+    </Class>
+    <Method classname="simulation.sensors.RobotRadar" name="getValue" signature="()Ljava/lang/String;" isStatic="false">
+      <SourceLine classname="simulation.sensors.RobotRadar" start="164" end="164" startBytecode="0" endBytecode="64" sourcefile="RobotRadar.java" sourcepath="simulation/sensors/RobotRadar.java"/>
+    </Method>
+    <Field classname="simulation.sensors.RobotRadar" name="output" signature="[D" isStatic="false" role="FIELD_VALUE_OF">
+      <SourceLine classname="simulation.sensors.RobotRadar" sourcefile="RobotRadar.java" sourcepath="simulation/sensors/RobotRadar.java"/>
+    </Field>
+    <SourceLine classname="simulation.sensors.RobotRadar" start="164" end="164" startBytecode="16" endBytecode="16" sourcefile="RobotRadar.java" sourcepath="simulation/sensors/RobotRadar.java"/>
+  </BugInstance>
+  <BugInstance type="EI_EXPOSE_REP" priority="2" abbrev="EI" category="MALICIOUS_CODE">
+    <Class classname="simulation.sensors.RobotRadar">
+      <SourceLine classname="simulation.sensors.RobotRadar" sourcefile="RobotRadar.java" sourcepath="simulation/sensors/RobotRadar.java"/>
+    </Class>
+    <Method classname="simulation.sensors.RobotRadar" name="getOutput" signature="()[D" isStatic="false">
+      <SourceLine classname="simulation.sensors.RobotRadar" start="172" end="172" startBytecode="0" endBytecode="46" sourcefile="RobotRadar.java" sourcepath="simulation/sensors/RobotRadar.java"/>
+    </Method>
+    <Field classname="simulation.sensors.RobotRadar" name="output" signature="[D" isStatic="false">
+      <SourceLine classname="simulation.sensors.RobotRadar" sourcefile="RobotRadar.java" sourcepath="simulation/sensors/RobotRadar.java"/>
+    </Field>
+    <SourceLine classname="simulation.sensors.RobotRadar" start="172" end="172" startBytecode="4" endBytecode="4" sourcefile="RobotRadar.java" sourcepath="simulation/sensors/RobotRadar.java"/>
+  </BugInstance>
+  <BugInstance type="UR_UNINIT_READ" priority="2" abbrev="UR" category="CORRECTNESS">
+    <Class classname="simulation.sensors.RobotRadar">
+      <SourceLine classname="simulation.sensors.RobotRadar" sourcefile="RobotRadar.java" sourcepath="simulation/sensors/RobotRadar.java"/>
+    </Class>
+    <Method classname="simulation.sensors.RobotRadar" name="&lt;init&gt;" signature="(Lsimulation/geometry/XPoint;D)V" isStatic="false">
+      <SourceLine classname="simulation.sensors.RobotRadar" start="89" end="95" startBytecode="0" endBytecode="222" sourcefile="RobotRadar.java" sourcepath="simulation/sensors/RobotRadar.java"/>
+    </Method>
+    <Field classname="simulation.sensors.RobotRadar" name="maxRange" signature="D" isStatic="false">
+      <SourceLine classname="simulation.sensors.RobotRadar" sourcefile="RobotRadar.java" sourcepath="simulation/sensors/RobotRadar.java"/>
+    </Field>
+    <SourceLine classname="simulation.sensors.RobotRadar" start="43" end="43" startBytecode="53" endBytecode="53" sourcefile="RobotRadar.java" sourcepath="simulation/sensors/RobotRadar.java"/>
+  </BugInstance>
+  <BugInstance type="DE_MIGHT_IGNORE" priority="1" abbrev="DE" category="BAD_PRACTICE">
+    <Class classname="ux.SimulatorGUI">
+      <SourceLine classname="ux.SimulatorGUI" sourcefile="SimulatorGUI.java" sourcepath="ux/SimulatorGUI.java"/>
+    </Class>
+    <Method classname="ux.SimulatorGUI" name="setFrameIcon" signature="(Ljavax/swing/JFrame;)V" isStatic="false">
+      <SourceLine classname="ux.SimulatorGUI" start="132" end="140" startBytecode="0" endBytecode="182" sourcefile="SimulatorGUI.java" sourcepath="ux/SimulatorGUI.java"/>
+    </Method>
+    <Class classname="java.lang.Exception" role="CLASS_EXCEPTION">
+      <SourceLine classname="java.lang.Exception"/>
+    </Class>
+    <SourceLine classname="ux.SimulatorGUI" start="139" end="139" startBytecode="33" endBytecode="33" sourcefile="SimulatorGUI.java" sourcepath="ux/SimulatorGUI.java"/>
+  </BugInstance>
+  <BugInstance type="DLS_DEAD_LOCAL_STORE" priority="1" abbrev="DLS" category="STYLE">
+    <Class classname="ux.SimulatorGUI">
+      <SourceLine classname="ux.SimulatorGUI" sourcefile="SimulatorGUI.java" sourcepath="ux/SimulatorGUI.java"/>
+    </Class>
+    <Method classname="ux.SimulatorGUI" name="main" signature="([Ljava/lang/String;)V" isStatic="true">
+      <SourceLine classname="ux.SimulatorGUI" start="177" end="186" startBytecode="0" endBytecode="8" sourcefile="SimulatorGUI.java" sourcepath="ux/SimulatorGUI.java"/>
+    </Method>
+    <LocalVariable name="simulatorGUI" register="1" pc="18" role="LOCAL_VARIABLE_NAMED"/>
+    <SourceLine classname="ux.SimulatorGUI" start="183" end="183" startBytecode="17" endBytecode="17" sourcefile="SimulatorGUI.java" sourcepath="ux/SimulatorGUI.java"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.LOCAL_NAME" value="simulatorGUI"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.METHOD_RESULT" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.DEAD_OBJECT_STORE" value="true"/>
+  </BugInstance>
+  <BugInstance type="SS_SHOULD_BE_STATIC" priority="2" abbrev="SS" category="PERFORMANCE">
+    <Class classname="ux.display.infopanels.InfoPanel">
+      <SourceLine classname="ux.display.infopanels.InfoPanel" sourcefile="InfoPanel.java" sourcepath="ux/display/infopanels/InfoPanel.java"/>
+    </Class>
+    <Field classname="ux.display.infopanels.InfoPanel" name="PANEL_HEIGHT" signature="I" isStatic="false">
+      <SourceLine classname="ux.display.infopanels.InfoPanel" sourcefile="InfoPanel.java" sourcepath="ux/display/infopanels/InfoPanel.java"/>
+    </Field>
+    <SourceLine classname="ux.display.infopanels.InfoPanel" start="25" end="25" startBytecode="7" endBytecode="7" sourcefile="InfoPanel.java" sourcepath="ux/display/infopanels/InfoPanel.java"/>
+  </BugInstance>
+  <BugInstance type="SS_SHOULD_BE_STATIC" priority="2" abbrev="SS" category="PERFORMANCE">
+    <Class classname="ux.display.infopanels.InfoPanel">
+      <SourceLine classname="ux.display.infopanels.InfoPanel" sourcefile="InfoPanel.java" sourcepath="ux/display/infopanels/InfoPanel.java"/>
+    </Class>
+    <Field classname="ux.display.infopanels.InfoPanel" name="PANEL_WIDTH" signature="I" isStatic="false">
+      <SourceLine classname="ux.display.infopanels.InfoPanel" sourcefile="InfoPanel.java" sourcepath="ux/display/infopanels/InfoPanel.java"/>
+    </Field>
+    <SourceLine classname="ux.display.infopanels.InfoPanel" start="26" end="26" startBytecode="14" endBytecode="14" sourcefile="InfoPanel.java" sourcepath="ux/display/infopanels/InfoPanel.java"/>
+  </BugInstance>
+  <BugInstance type="BX_BOXING_IMMEDIATELY_UNBOXED_TO_PERFORM_COERCION" priority="2" abbrev="Bx" category="PERFORMANCE">
+    <Class classname="ux.listeners.MinSizeComponentListener">
+      <SourceLine classname="ux.listeners.MinSizeComponentListener" sourcefile="MinSizeComponentListener.java" sourcepath="ux/listeners/MinSizeComponentListener.java"/>
+    </Class>
+    <Method classname="ux.listeners.MinSizeComponentListener" name="componentResized" signature="(Ljava/awt/event/ComponentEvent;)V" isStatic="false">
+      <SourceLine classname="ux.listeners.MinSizeComponentListener" start="28" end="38" startBytecode="0" endBytecode="262" sourcefile="MinSizeComponentListener.java" sourcepath="ux/listeners/MinSizeComponentListener.java"/>
+    </Method>
+    <SourceLine classname="ux.listeners.MinSizeComponentListener" start="30" end="30" startBytecode="21" endBytecode="21" sourcefile="MinSizeComponentListener.java" sourcepath="ux/listeners/MinSizeComponentListener.java"/>
+    <SourceLine classname="ux.listeners.MinSizeComponentListener" start="31" end="31" startBytecode="37" endBytecode="37" sourcefile="MinSizeComponentListener.java" sourcepath="ux/listeners/MinSizeComponentListener.java" role="SOURCE_LINE_ANOTHER_INSTANCE"/>
+  </BugInstance>
+  <BugInstance type="NM_METHOD_NAMING_CONVENTION" priority="2" abbrev="Nm" category="BAD_PRACTICE">
+    <Class classname="ux.loadandsave.SerializedLoaderSaver">
+      <SourceLine classname="ux.loadandsave.SerializedLoaderSaver" sourcefile="SerializedLoaderSaver.java" sourcepath="ux/loadandsave/SerializedLoaderSaver.java"/>
+    </Class>
+    <Method classname="ux.loadandsave.SerializedLoaderSaver" name="LoadSimFile" signature="(Ljava/io/File;)Ljava/lang/Object;" isStatic="false">
+      <SourceLine classname="ux.loadandsave.SerializedLoaderSaver" start="52" end="63" startBytecode="0" endBytecode="231" sourcefile="SerializedLoaderSaver.java" sourcepath="ux/loadandsave/SerializedLoaderSaver.java"/>
+    </Method>
+  </BugInstance>
+  <BugInstance type="NM_METHOD_NAMING_CONVENTION" priority="2" abbrev="Nm" category="BAD_PRACTICE">
+    <Class classname="ux.loadandsave.SerializedLoaderSaver">
+      <SourceLine classname="ux.loadandsave.SerializedLoaderSaver" sourcefile="SerializedLoaderSaver.java" sourcepath="ux/loadandsave/SerializedLoaderSaver.java"/>
+    </Class>
+    <Method classname="ux.loadandsave.SerializedLoaderSaver" name="SaveSimFile" signature="(Ljava/io/File;Ljava/io/Serializable;)V" isStatic="false">
+      <SourceLine classname="ux.loadandsave.SerializedLoaderSaver" start="36" end="40" startBytecode="0" endBytecode="128" sourcefile="SerializedLoaderSaver.java" sourcepath="ux/loadandsave/SerializedLoaderSaver.java"/>
+    </Method>
+  </BugInstance>
+  <BugInstance type="URF_UNREAD_FIELD" priority="2" abbrev="UrF" category="PERFORMANCE">
+    <Class classname="ux.painters.RobotPainterProgressImp2">
+      <SourceLine classname="ux.painters.RobotPainterProgressImp2" sourcefile="RobotPainterProgressImp2.java" sourcepath="ux/painters/RobotPainterProgressImp2.java"/>
+    </Class>
+    <Field classname="ux.painters.RobotPainterProgressImp2" name="DIRECTION_RECTANGLE_COLOR" signature="Ljava/awt/Color;" isStatic="false">
+      <SourceLine classname="ux.painters.RobotPainterProgressImp2" sourcefile="RobotPainterProgressImp2.java" sourcepath="ux/painters/RobotPainterProgressImp2.java"/>
+    </Field>
+    <SourceLine classname="ux.painters.RobotPainterProgressImp2" start="40" end="40" startBytecode="27" endBytecode="27" sourcefile="RobotPainterProgressImp2.java" sourcepath="ux/painters/RobotPainterProgressImp2.java"/>
+  </BugInstance>
+  <BugInstance type="DLS_DEAD_LOCAL_STORE" priority="2" abbrev="DLS" category="STYLE">
+    <Class classname="ux.robotdesigner.shape.ShapeDesignerCanvas">
+      <SourceLine classname="ux.robotdesigner.shape.ShapeDesignerCanvas" sourcefile="ShapeDesignerCanvas.java" sourcepath="ux/robotdesigner/shape/ShapeDesignerCanvas.java"/>
+    </Class>
+    <Method classname="ux.robotdesigner.shape.ShapeDesignerCanvas" name="getRobotOutline" signature="()Lsimulation/geometry/RigidBody;" isStatic="false">
+      <SourceLine classname="ux.robotdesigner.shape.ShapeDesignerCanvas" start="100" end="111" startBytecode="0" endBytecode="49" sourcefile="ShapeDesignerCanvas.java" sourcepath="ux/robotdesigner/shape/ShapeDesignerCanvas.java"/>
+    </Method>
+    <LocalVariable name="origin" register="1" pc="8" role="LOCAL_VARIABLE_NAMED"/>
+    <SourceLine classname="ux.robotdesigner.shape.ShapeDesignerCanvas" start="100" end="100" startBytecode="7" endBytecode="7" sourcefile="ShapeDesignerCanvas.java" sourcepath="ux/robotdesigner/shape/ShapeDesignerCanvas.java"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.KILLED_BY_SUBSEQUENT_STORE" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.LOCAL_NAME" value="origin"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.METHOD_RESULT" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.DEAD_OBJECT_STORE" value="true"/>
+  </BugInstance>
+  <BugInstance type="SA_FIELD_SELF_ASSIGNMENT" priority="2" abbrev="SA" category="CORRECTNESS">
+    <Class classname="ux.usercontrol.ButtonControlUI">
+      <SourceLine classname="ux.usercontrol.ButtonControlUI" sourcefile="ButtonControlUI.java" sourcepath="ux/usercontrol/ButtonControlUI.java"/>
+    </Class>
+    <Method classname="ux.usercontrol.ButtonControlUI" name="&lt;init&gt;" signature="(Lux/usercontrol/SimulatorController;)V" isStatic="false">
+      <SourceLine classname="ux.usercontrol.ButtonControlUI" start="41" end="46" startBytecode="0" endBytecode="98" sourcefile="ButtonControlUI.java" sourcepath="ux/usercontrol/ButtonControlUI.java"/>
+    </Method>
+    <Field classname="ux.usercontrol.ButtonControlUI" name="speedListener" signature="Ljavax/swing/event/ChangeListener;" isStatic="false">
+      <SourceLine classname="ux.usercontrol.ButtonControlUI" sourcefile="ButtonControlUI.java" sourcepath="ux/usercontrol/ButtonControlUI.java"/>
+    </Field>
+    <SourceLine classname="ux.usercontrol.ButtonControlUI" start="44" end="44" startBytecode="19" endBytecode="19" sourcefile="ButtonControlUI.java" sourcepath="ux/usercontrol/ButtonControlUI.java"/>
+  </BugInstance>
+  <BugInstance type="UR_UNINIT_READ" priority="2" abbrev="UR" category="CORRECTNESS">
+    <Class classname="ux.usercontrol.ButtonControlUI">
+      <SourceLine classname="ux.usercontrol.ButtonControlUI" sourcefile="ButtonControlUI.java" sourcepath="ux/usercontrol/ButtonControlUI.java"/>
+    </Class>
+    <Method classname="ux.usercontrol.ButtonControlUI" name="&lt;init&gt;" signature="(Lux/usercontrol/SimulatorController;)V" isStatic="false">
+      <SourceLine classname="ux.usercontrol.ButtonControlUI" start="41" end="46" startBytecode="0" endBytecode="98" sourcefile="ButtonControlUI.java" sourcepath="ux/usercontrol/ButtonControlUI.java"/>
+    </Method>
+    <Field classname="ux.usercontrol.ButtonControlUI" name="speedListener" signature="Ljavax/swing/event/ChangeListener;" isStatic="false">
+      <SourceLine classname="ux.usercontrol.ButtonControlUI" sourcefile="ButtonControlUI.java" sourcepath="ux/usercontrol/ButtonControlUI.java"/>
+    </Field>
+    <SourceLine classname="ux.usercontrol.ButtonControlUI" start="44" end="44" startBytecode="16" endBytecode="16" sourcefile="ButtonControlUI.java" sourcepath="ux/usercontrol/ButtonControlUI.java"/>
+  </BugInstance>
+  <BugInstance type="UWF_UNWRITTEN_FIELD" priority="2" abbrev="UwF" category="CORRECTNESS">
+    <Class classname="ux.usercontrol.ButtonControlUI">
+      <SourceLine classname="ux.usercontrol.ButtonControlUI" sourcefile="ButtonControlUI.java" sourcepath="ux/usercontrol/ButtonControlUI.java"/>
+    </Class>
+    <Field classname="ux.usercontrol.ButtonControlUI" name="speedListener" signature="Ljavax/swing/event/ChangeListener;" isStatic="false">
+      <SourceLine classname="ux.usercontrol.ButtonControlUI" sourcefile="ButtonControlUI.java" sourcepath="ux/usercontrol/ButtonControlUI.java"/>
+    </Field>
+    <SourceLine classname="ux.usercontrol.ButtonControlUI" start="44" end="44" startBytecode="16" endBytecode="16" sourcefile="ButtonControlUI.java" sourcepath="ux/usercontrol/ButtonControlUI.java"/>
+  </BugInstance>
+  <BugInstance type="SS_SHOULD_BE_STATIC" priority="2" abbrev="SS" category="PERFORMANCE">
+    <Class classname="ux.usercontrol.ScrollTextArea">
+      <SourceLine classname="ux.usercontrol.ScrollTextArea" sourcefile="ScrollTextArea.java" sourcepath="ux/usercontrol/ScrollTextArea.java"/>
+    </Class>
+    <Field classname="ux.usercontrol.ScrollTextArea" name="INSET_SIZE" signature="I" isStatic="false">
+      <SourceLine classname="ux.usercontrol.ScrollTextArea" sourcefile="ScrollTextArea.java" sourcepath="ux/usercontrol/ScrollTextArea.java"/>
+    </Field>
+    <SourceLine classname="ux.usercontrol.ScrollTextArea" start="18" end="18" startBytecode="6" endBytecode="6" sourcefile="ScrollTextArea.java" sourcepath="ux/usercontrol/ScrollTextArea.java"/>
+  </BugInstance>
+  <BugInstance type="SS_SHOULD_BE_STATIC" priority="2" abbrev="SS" category="PERFORMANCE">
+    <Class classname="ux.usercontrol.ScrollTextArea">
+      <SourceLine classname="ux.usercontrol.ScrollTextArea" sourcefile="ScrollTextArea.java" sourcepath="ux/usercontrol/ScrollTextArea.java"/>
+    </Class>
+    <Field classname="ux.usercontrol.ScrollTextArea" name="PREFERRED_HEIGHT" signature="I" isStatic="false">
+      <SourceLine classname="ux.usercontrol.ScrollTextArea" sourcefile="ScrollTextArea.java" sourcepath="ux/usercontrol/ScrollTextArea.java"/>
+    </Field>
+    <SourceLine classname="ux.usercontrol.ScrollTextArea" start="19" end="19" startBytecode="13" endBytecode="13" sourcefile="ScrollTextArea.java" sourcepath="ux/usercontrol/ScrollTextArea.java"/>
+  </BugInstance>
+  <BugInstance type="SS_SHOULD_BE_STATIC" priority="2" abbrev="SS" category="PERFORMANCE">
+    <Class classname="ux.usercontrol.ScrollTextArea">
+      <SourceLine classname="ux.usercontrol.ScrollTextArea" sourcefile="ScrollTextArea.java" sourcepath="ux/usercontrol/ScrollTextArea.java"/>
+    </Class>
+    <Field classname="ux.usercontrol.ScrollTextArea" name="PREFERRED_WIDTH" signature="I" isStatic="false">
+      <SourceLine classname="ux.usercontrol.ScrollTextArea" sourcefile="ScrollTextArea.java" sourcepath="ux/usercontrol/ScrollTextArea.java"/>
+    </Field>
+    <SourceLine classname="ux.usercontrol.ScrollTextArea" start="20" end="20" startBytecode="20" endBytecode="20" sourcefile="ScrollTextArea.java" sourcepath="ux/usercontrol/ScrollTextArea.java"/>
+  </BugInstance>
+  <Errors errors="0" missingClasses="4">
+    <MissingClass>net.miginfocom.swing.MigLayout</MissingClass>
+    <MissingClass>org.jruby.embed.LocalContextScope</MissingClass>
+    <MissingClass>org.jruby.embed.ScriptingContainer</MissingClass>
+    <MissingClass>org.jruby.exceptions.RaiseException</MissingClass>
+  </Errors>
+  <FindBugsSummary timestamp="Wed, 20 Jul 2011 12:06:48 +1200" total_classes="127" referenced_classes="512" total_bugs="31" total_size="4962" num_packages="18" vm_version="20.0-b11" cpu_seconds="79.15" clock_seconds="1166.42" peak_mbytes="451.76" alloc_mbytes="910.25" gc_seconds="1.24" priority_2="27" priority_1="4">
+    <PackageStats package="publishersubscriber" total_bugs="0" total_types="2" total_size="12">
+      <ClassStats class="publishersubscriber.SimulatorPublisher" sourceFile="SimulatorPublisher.java" interface="true" size="9" bugs="0"/>
+      <ClassStats class="publishersubscriber.SimulatorSubscriber" sourceFile="SimulatorSubscriber.java" interface="true" size="3" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="resourcemanager" total_bugs="0" total_types="1" total_size="15">
+      <ClassStats class="resourcemanager.FileSaverAndLoader" sourceFile="FileSaverAndLoader.java" interface="false" size="15" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="simulation" total_bugs="4" total_types="8" total_size="438" priority_2="4">
+      <ClassStats class="simulation.NixScheduler" sourceFile="NixScheduler.java" interface="false" size="46" bugs="0"/>
+      <ClassStats class="simulation.NixScheduler$1" sourceFile="NixScheduler.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="simulation.RobotBuilder" sourceFile="RobotBuilder.java" interface="false" size="43" bugs="0"/>
+      <ClassStats class="simulation.Scheduler" sourceFile="Scheduler.java" interface="true" size="6" bugs="0"/>
+      <ClassStats class="simulation.SimulationBuilder" sourceFile="SimulationBuilder.java" interface="false" size="21" bugs="1" priority_2="1"/>
+      <ClassStats class="simulation.Simulator" sourceFile="Simulator.java" interface="false" size="261" bugs="3" priority_2="3"/>
+      <ClassStats class="simulation.WinScheduler" sourceFile="WinScheduler.java" interface="false" size="43" bugs="0"/>
+      <ClassStats class="simulation.WinScheduler$1" sourceFile="WinScheduler.java" interface="false" size="9" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="simulation.geometry" total_bugs="2" total_types="6" total_size="439" priority_2="1" priority_1="1">
+      <ClassStats class="simulation.geometry.Collision" sourceFile="Collision.java" interface="false" size="17" bugs="0"/>
+      <ClassStats class="simulation.geometry.Environment" sourceFile="Environment.java" interface="false" size="98" bugs="0"/>
+      <ClassStats class="simulation.geometry.GeometricShape" sourceFile="GeometricShape.java" interface="false" size="102" bugs="1" priority_1="1"/>
+      <ClassStats class="simulation.geometry.RigidBody" sourceFile="RigidBody.java" interface="false" size="98" bugs="1" priority_2="1"/>
+      <ClassStats class="simulation.geometry.Terrain" sourceFile="Terrain.java" interface="false" size="31" bugs="0"/>
+      <ClassStats class="simulation.geometry.XPoint" sourceFile="XPoint.java" interface="false" size="93" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="simulation.inanimates" total_bugs="0" total_types="1" total_size="35">
+      <ClassStats class="simulation.inanimates.Inanimate" sourceFile="Inanimate.java" interface="false" size="35" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="simulation.robot" total_bugs="1" total_types="3" total_size="173" priority_2="1">
+      <ClassStats class="simulation.robot.Robot" sourceFile="Robot.java" interface="false" size="146" bugs="1" priority_2="1"/>
+      <ClassStats class="simulation.robot.RobotOutput" sourceFile="RobotOutput.java" interface="false" size="23" bugs="0"/>
+      <ClassStats class="simulation.robot.RubyRobot" sourceFile="RubyRobot.java" interface="true" size="4" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="simulation.robot.behaviour" total_bugs="4" total_types="11" total_size="521" priority_2="4">
+      <ClassStats class="simulation.robot.behaviour.AbsoluteTurn" sourceFile="AbsoluteTurn.java" interface="false" size="80" bugs="0"/>
+      <ClassStats class="simulation.robot.behaviour.AvoidObstacle" sourceFile="AvoidObstacle.java" interface="false" size="48" bugs="0"/>
+      <ClassStats class="simulation.robot.behaviour.Behaviour" sourceFile="Behaviour.java" interface="true" size="4" bugs="0"/>
+      <ClassStats class="simulation.robot.behaviour.Bounce" sourceFile="Bounce.java" interface="false" size="39" bugs="0"/>
+      <ClassStats class="simulation.robot.behaviour.Drive" sourceFile="Drive.java" interface="false" size="60" bugs="3" priority_2="3"/>
+      <ClassStats class="simulation.robot.behaviour.Drive$modes" sourceFile="Drive.java" interface="false" size="10" bugs="0"/>
+      <ClassStats class="simulation.robot.behaviour.FollowWall" sourceFile="FollowWall.java" interface="false" size="46" bugs="0"/>
+      <ClassStats class="simulation.robot.behaviour.MoveToCup" sourceFile="MoveToCup.java" interface="false" size="55" bugs="0"/>
+      <ClassStats class="simulation.robot.behaviour.MoveToRobot" sourceFile="MoveToRobot.java" interface="false" size="64" bugs="1" priority_2="1"/>
+      <ClassStats class="simulation.robot.behaviour.PID" sourceFile="PID.java" interface="false" size="23" bugs="0"/>
+      <ClassStats class="simulation.robot.behaviour.RelativeTurn" sourceFile="RelativeTurn.java" interface="false" size="92" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="simulation.sensors" total_bugs="5" total_types="15" total_size="592" priority_2="4" priority_1="1">
+      <ClassStats class="simulation.sensors.Camera" sourceFile="Camera.java" interface="false" size="115" bugs="0"/>
+      <ClassStats class="simulation.sensors.Camera$1" sourceFile="Camera.java" interface="false" size="4" bugs="0"/>
+      <ClassStats class="simulation.sensors.Camera$scannableObjects" sourceFile="Camera.java" interface="false" size="10" bugs="1" priority_2="1"/>
+      <ClassStats class="simulation.sensors.CollectionSensor" sourceFile="CollectionSensor.java" interface="false" size="24" bugs="0"/>
+      <ClassStats class="simulation.sensors.CompassSensor" sourceFile="CompassSensor.java" interface="false" size="30" bugs="0"/>
+      <ClassStats class="simulation.sensors.CupSensor" sourceFile="CupSensor.java" interface="false" size="50" bugs="0"/>
+      <ClassStats class="simulation.sensors.DistanceSensor" sourceFile="DistanceSensor.java" interface="false" size="82" bugs="0"/>
+      <ClassStats class="simulation.sensors.Encoder" sourceFile="Encoder.java" interface="false" size="35" bugs="1" priority_2="1"/>
+      <ClassStats class="simulation.sensors.GPS" sourceFile="GPS.java" interface="false" size="28" bugs="0"/>
+      <ClassStats class="simulation.sensors.RobotCamera" sourceFile="RobotCamera.java" interface="false" size="71" bugs="0"/>
+      <ClassStats class="simulation.sensors.RobotRadar" sourceFile="RobotRadar.java" interface="false" size="81" bugs="3" priority_2="2" priority_1="1"/>
+      <ClassStats class="simulation.sensors.Sensor" sourceFile="Sensor.java" interface="true" size="6" bugs="0"/>
+      <ClassStats class="simulation.sensors.SensorAble" sourceFile="SensorAble.java" interface="true" size="6" bugs="0"/>
+      <ClassStats class="simulation.sensors.TerrainSensor" sourceFile="TerrainSensor.java" interface="false" size="25" bugs="0"/>
+      <ClassStats class="simulation.sensors.VelocitySensor" sourceFile="VelocitySensor.java" interface="false" size="25" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="ux" total_bugs="2" total_types="2" total_size="104" priority_1="2">
+      <ClassStats class="ux.SimulatorGUI" sourceFile="SimulatorGUI.java" interface="false" size="95" bugs="2" priority_1="2"/>
+      <ClassStats class="ux.SimulatorGUI$State" sourceFile="SimulatorGUI.java" interface="false" size="9" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="ux.display" total_bugs="0" total_types="17" total_size="494">
+      <ClassStats class="ux.display.Arrow" sourceFile="Arrow.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="ux.display.Colors" sourceFile="Colors.java" interface="false" size="20" bugs="0"/>
+      <ClassStats class="ux.display.GraphicalDisplay" sourceFile="GraphicalDisplay.java" interface="false" size="192" bugs="0"/>
+      <ClassStats class="ux.display.GraphicalDisplay$1" sourceFile="GraphicalDisplay.java" interface="false" size="1" bugs="0"/>
+      <ClassStats class="ux.display.GraphicalDisplay$DraggingObjectListener" sourceFile="GraphicalDisplay.java" interface="false" size="39" bugs="0"/>
+      <ClassStats class="ux.display.GraphicalDisplay$HighlightedObjectListener" sourceFile="GraphicalDisplay.java" interface="false" size="21" bugs="0"/>
+      <ClassStats class="ux.display.GraphicalDisplay$ThreadStart" sourceFile="GraphicalDisplay.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="ux.display.GraphicalDisplayControlGui" sourceFile="GraphicalDisplayControlGui.java" interface="false" size="49" bugs="0"/>
+      <ClassStats class="ux.display.GraphicalDisplayControlGui$1" sourceFile="GraphicalDisplayControlGui.java" interface="false" size="1" bugs="0"/>
+      <ClassStats class="ux.display.GraphicalDisplayControlGui$CheckBoxListener" sourceFile="GraphicalDisplayControlGui.java" interface="false" size="23" bugs="0"/>
+      <ClassStats class="ux.display.GraphicalDisplayControlGui$Orientation" sourceFile="GraphicalDisplayControlGui.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="ux.display.GraphicalDisplayController" sourceFile="GraphicalDisplayController.java" interface="false" size="30" bugs="0"/>
+      <ClassStats class="ux.display.MitreArrow" sourceFile="MitreArrow.java" interface="false" size="51" bugs="0"/>
+      <ClassStats class="ux.display.MitreRect" sourceFile="MitreRect.java" interface="false" size="39" bugs="0"/>
+      <ClassStats class="ux.display.Rect" sourceFile="Rect.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="ux.display.SelectionPublisher" sourceFile="SelectionPublisher.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="ux.display.SelectionSubscriber" sourceFile="SelectionSubscriber.java" interface="true" size="2" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="ux.display.designer" total_bugs="0" total_types="15" total_size="889">
+      <ClassStats class="ux.display.designer.DesignControl" sourceFile="DesignControl.java" interface="false" size="46" bugs="0"/>
+      <ClassStats class="ux.display.designer.DesignControl$1" sourceFile="DesignControl.java" interface="false" size="1" bugs="0"/>
+      <ClassStats class="ux.display.designer.DesignControl$LaunchListener" sourceFile="DesignControl.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="ux.display.designer.DesignControl$SimulationClearer" sourceFile="DesignControl.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="ux.display.designer.EnvironmentCreation" sourceFile="EnvironmentCreation.java" interface="false" size="11" bugs="0"/>
+      <ClassStats class="ux.display.designer.EnvironmentDesignDialog" sourceFile="EnvironmentDesignDialog.java" interface="false" size="78" bugs="0"/>
+      <ClassStats class="ux.display.designer.EnvironmentDesignDialog$1" sourceFile="EnvironmentDesignDialog.java" interface="false" size="11" bugs="0"/>
+      <ClassStats class="ux.display.designer.InanimateCreationDialog" sourceFile="InanimateCreationDialog.java" interface="false" size="121" bugs="0"/>
+      <ClassStats class="ux.display.designer.PolygonCreator" sourceFile="PolygonCreator.java" interface="false" size="157" bugs="0"/>
+      <ClassStats class="ux.display.designer.RobotCreationDialog" sourceFile="RobotCreationDialog.java" interface="false" size="220" bugs="0"/>
+      <ClassStats class="ux.display.designer.SaveDialog" sourceFile="SaveDialog.java" interface="false" size="27" bugs="0"/>
+      <ClassStats class="ux.display.designer.TerrainCreation" sourceFile="TerrainCreation.java" interface="false" size="23" bugs="0"/>
+      <ClassStats class="ux.display.designer.TerrainCreationDialog" sourceFile="TerrainCreationDialog.java" interface="false" size="156" bugs="0"/>
+      <ClassStats class="ux.display.designer.TerrainCreationDialog$1" sourceFile="TerrainCreationDialog.java" interface="false" size="11" bugs="0"/>
+      <ClassStats class="ux.display.designer.TerrainCreationDialog$2" sourceFile="TerrainCreationDialog.java" interface="false" size="11" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="ux.display.infopanels" total_bugs="2" total_types="5" total_size="217" priority_2="2">
+      <ClassStats class="ux.display.infopanels.InfoPanel" sourceFile="InfoPanel.java" interface="false" size="45" bugs="2" priority_2="2"/>
+      <ClassStats class="ux.display.infopanels.ItemInfoPanel" sourceFile="ItemInfoPanel.java" interface="false" size="30" bugs="0"/>
+      <ClassStats class="ux.display.infopanels.ReaderOutputPanel" sourceFile="ReaderOutputPanel.java" interface="false" size="29" bugs="0"/>
+      <ClassStats class="ux.display.infopanels.RobotInfoPanel" sourceFile="RobotInfoPanel.java" interface="false" size="98" bugs="0"/>
+      <ClassStats class="ux.display.infopanels.TerrainInfoPanel" sourceFile="TerrainInfoPanel.java" interface="false" size="15" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="ux.display.robotdesigner" total_bugs="0" total_types="4" total_size="275">
+      <ClassStats class="ux.display.robotdesigner.ShapeCanvas" sourceFile="ShapeCanvas.java" interface="false" size="79" bugs="0"/>
+      <ClassStats class="ux.display.robotdesigner.ShapeFrame" sourceFile="ShapeFrame.java" interface="false" size="176" bugs="0"/>
+      <ClassStats class="ux.display.robotdesigner.ShapeFrame$1" sourceFile="ShapeFrame.java" interface="false" size="10" bugs="0"/>
+      <ClassStats class="ux.display.robotdesigner.ShapeFrame$2" sourceFile="ShapeFrame.java" interface="false" size="10" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="ux.listeners" total_bugs="1" total_types="2" total_size="23" priority_2="1">
+      <ClassStats class="ux.listeners.FixedAspectRatioListener" sourceFile="FixedAspectRatioListener.java" interface="false" size="10" bugs="0"/>
+      <ClassStats class="ux.listeners.MinSizeComponentListener" sourceFile="MinSizeComponentListener.java" interface="false" size="13" bugs="1" priority_2="1"/>
+    </PackageStats>
+    <PackageStats package="ux.loadandsave" total_bugs="2" total_types="5" total_size="65" priority_2="2">
+      <ClassStats class="ux.loadandsave.EnvironmentLoaderSaver" sourceFile="EnvironmentLoaderSaver.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="ux.loadandsave.LabelledFileChooser" sourceFile="LabelledFileChooser.java" interface="false" size="31" bugs="0"/>
+      <ClassStats class="ux.loadandsave.LabelledFileChooser$OpenFile" sourceFile="LabelledFileChooser.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="ux.loadandsave.RobotLoaderSaver" sourceFile="RobotLoaderSaver.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="ux.loadandsave.SerializedLoaderSaver" sourceFile="SerializedLoaderSaver.java" interface="false" size="19" bugs="2" priority_2="2"/>
+    </PackageStats>
+    <PackageStats package="ux.painters" total_bugs="1" total_types="16" total_size="195" priority_2="1">
+      <ClassStats class="ux.painters.EnvironmentPainter" sourceFile="EnvironmentPainter.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="ux.painters.EnvironmentPainterImp" sourceFile="EnvironmentPainterImp.java" interface="false" size="13" bugs="0"/>
+      <ClassStats class="ux.painters.ItemPainter" sourceFile="ItemPainter.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="ux.painters.ItemPainterImp" sourceFile="ItemPainterImp.java" interface="false" size="11" bugs="0"/>
+      <ClassStats class="ux.painters.RobotPainter" sourceFile="RobotPainter.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="ux.painters.RobotPainterImp" sourceFile="RobotPainterImp.java" interface="false" size="19" bugs="0"/>
+      <ClassStats class="ux.painters.RobotPainterImp2" sourceFile="RobotPainterImp2.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="ux.painters.RobotPainterProgressImp" sourceFile="RobotPainterProgressImp.java" interface="false" size="25" bugs="0"/>
+      <ClassStats class="ux.painters.RobotPainterProgressImp2" sourceFile="RobotPainterProgressImp2.java" interface="false" size="53" bugs="1" priority_2="1"/>
+      <ClassStats class="ux.painters.SelectedPainter" sourceFile="SelectedPainter.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="ux.painters.SelectedPainterImp" sourceFile="SelectedPainterImp.java" interface="false" size="11" bugs="0"/>
+      <ClassStats class="ux.painters.SensorPainter" sourceFile="SensorPainter.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="ux.painters.SensorPainterImp" sourceFile="SensorPainterImp.java" interface="false" size="10" bugs="0"/>
+      <ClassStats class="ux.painters.TerrainPainter" sourceFile="TerrainPainter.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="ux.painters.TerrainPainterImp" sourceFile="TerrainPainterImp.java" interface="false" size="8" bugs="0"/>
+      <ClassStats class="ux.painters.TerrainPainterImp2" sourceFile="TerrainPainterImp2.java" interface="false" size="11" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="ux.robotdesigner.shape" total_bugs="1" total_types="5" total_size="263" priority_2="1">
+      <ClassStats class="ux.robotdesigner.shape.ColourChooserPanel" sourceFile="ColourChooserPanel.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="ux.robotdesigner.shape.ShapeDesignerCanvas" sourceFile="ShapeDesignerCanvas.java" interface="false" size="151" bugs="1" priority_2="1"/>
+      <ClassStats class="ux.robotdesigner.shape.ShapeDesignerCanvas$1" sourceFile="ShapeDesignerCanvas.java" interface="false" size="4" bugs="0"/>
+      <ClassStats class="ux.robotdesigner.shape.ShapeDesignerCanvas$shape_type" sourceFile="ShapeDesignerCanvas.java" interface="false" size="14" bugs="0"/>
+      <ClassStats class="ux.robotdesigner.shape.ShapeDesignerDisplay" sourceFile="ShapeDesignerDisplay.java" interface="false" size="79" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="ux.usercontrol" total_bugs="6" total_types="9" total_size="212" priority_2="6">
+      <ClassStats class="ux.usercontrol.ButtonControlUI" sourceFile="ButtonControlUI.java" interface="false" size="77" bugs="3" priority_2="3"/>
+      <ClassStats class="ux.usercontrol.ButtonControlUI$1" sourceFile="ButtonControlUI.java" interface="false" size="1" bugs="0"/>
+      <ClassStats class="ux.usercontrol.ButtonControlUI$ButtonListener" sourceFile="ButtonControlUI.java" interface="false" size="16" bugs="0"/>
+      <ClassStats class="ux.usercontrol.ButtonControlUI$TimeFactorListener" sourceFile="ButtonControlUI.java" interface="false" size="7" bugs="0"/>
+      <ClassStats class="ux.usercontrol.ErrorOutput" sourceFile="ErrorOutput.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="ux.usercontrol.ScrollTextArea" sourceFile="ScrollTextArea.java" interface="false" size="16" bugs="3" priority_2="3"/>
+      <ClassStats class="ux.usercontrol.SimulatorControlGui" sourceFile="SimulatorControlGui.java" interface="true" size="5" bugs="0"/>
+      <ClassStats class="ux.usercontrol.SimulatorController" sourceFile="SimulatorController.java" interface="false" size="79" bugs="0"/>
+      <ClassStats class="ux.usercontrol.SimulatorController$Mode" sourceFile="SimulatorController.java" interface="false" size="9" bugs="0"/>
+    </PackageStats>
+    <FindBugsProfile>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindSelfComparison2" totalMilliseconds="11" invocations="127" avgMicrosecondsPerInvocation="86" maxMicrosecondsPerInvocation="473" standardDeviationMircosecondsPerInvocation="106"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindBugsSummaryStats" totalMilliseconds="11" invocations="512" avgMicrosecondsPerInvocation="21" maxMicrosecondsPerInvocation="1245" standardDeviationMircosecondsPerInvocation="62"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.SynchronizeOnClassLiteralNotGetClass" totalMilliseconds="11" invocations="127" avgMicrosecondsPerInvocation="87" maxMicrosecondsPerInvocation="616" standardDeviationMircosecondsPerInvocation="107"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindBadCast2" totalMilliseconds="11" invocations="127" avgMicrosecondsPerInvocation="90" maxMicrosecondsPerInvocation="1809" standardDeviationMircosecondsPerInvocation="220"/>
+      <ClassProfile name="edu.umd.cs.findbugs.util.TopologicalSort" totalMilliseconds="11" invocations="128" avgMicrosecondsPerInvocation="90" maxMicrosecondsPerInvocation="2403" standardDeviationMircosecondsPerInvocation="212"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteUnconditionalParamDerefs" totalMilliseconds="11" invocations="127" avgMicrosecondsPerInvocation="91" maxMicrosecondsPerInvocation="485" standardDeviationMircosecondsPerInvocation="96"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.AppendingToAnObjectOutputStream" totalMilliseconds="11" invocations="127" avgMicrosecondsPerInvocation="92" maxMicrosecondsPerInvocation="667" standardDeviationMircosecondsPerInvocation="113"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindFloatEquality" totalMilliseconds="11" invocations="127" avgMicrosecondsPerInvocation="93" maxMicrosecondsPerInvocation="660" standardDeviationMircosecondsPerInvocation="109"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindFieldSelfAssignment" totalMilliseconds="12" invocations="127" avgMicrosecondsPerInvocation="97" maxMicrosecondsPerInvocation="646" standardDeviationMircosecondsPerInvocation="120"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.SynchronizingOnContentsOfFieldToProtectField" totalMilliseconds="12" invocations="127" avgMicrosecondsPerInvocation="98" maxMicrosecondsPerInvocation="683" standardDeviationMircosecondsPerInvocation="117"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FormatStringChecker" totalMilliseconds="12" invocations="127" avgMicrosecondsPerInvocation="100" maxMicrosecondsPerInvocation="685" standardDeviationMircosecondsPerInvocation="121"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.Naming" totalMilliseconds="13" invocations="127" avgMicrosecondsPerInvocation="103" maxMicrosecondsPerInvocation="564" standardDeviationMircosecondsPerInvocation="88"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.BadSyntaxForRegularExpression" totalMilliseconds="13" invocations="127" avgMicrosecondsPerInvocation="103" maxMicrosecondsPerInvocation="728" standardDeviationMircosecondsPerInvocation="128"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.CrossSiteScripting" totalMilliseconds="13" invocations="127" avgMicrosecondsPerInvocation="105" maxMicrosecondsPerInvocation="901" standardDeviationMircosecondsPerInvocation="130"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindReturnRef" totalMilliseconds="13" invocations="127" avgMicrosecondsPerInvocation="105" maxMicrosecondsPerInvocation="546" standardDeviationMircosecondsPerInvocation="132"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindBadForLoop" totalMilliseconds="13" invocations="127" avgMicrosecondsPerInvocation="106" maxMicrosecondsPerInvocation="841" standardDeviationMircosecondsPerInvocation="131"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.BadResultSetAccess" totalMilliseconds="13" invocations="127" avgMicrosecondsPerInvocation="106" maxMicrosecondsPerInvocation="697" standardDeviationMircosecondsPerInvocation="122"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.InfiniteRecursiveLoop" totalMilliseconds="13" invocations="127" avgMicrosecondsPerInvocation="107" maxMicrosecondsPerInvocation="705" standardDeviationMircosecondsPerInvocation="126"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.LostLoggerDueToWeakReference" totalMilliseconds="13" invocations="127" avgMicrosecondsPerInvocation="110" maxMicrosecondsPerInvocation="738" standardDeviationMircosecondsPerInvocation="129"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.SynchronizationOnSharedBuiltinConstant" totalMilliseconds="14" invocations="127" avgMicrosecondsPerInvocation="110" maxMicrosecondsPerInvocation="681" standardDeviationMircosecondsPerInvocation="118"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.Methods" totalMilliseconds="14" invocations="512" avgMicrosecondsPerInvocation="27" maxMicrosecondsPerInvocation="513" standardDeviationMircosecondsPerInvocation="42"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ReverseDepthFirstSearchFactory" totalMilliseconds="14" invocations="691" avgMicrosecondsPerInvocation="20" maxMicrosecondsPerInvocation="281" standardDeviationMircosecondsPerInvocation="31"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.DumbMethodInvocations" totalMilliseconds="15" invocations="127" avgMicrosecondsPerInvocation="119" maxMicrosecondsPerInvocation="793" standardDeviationMircosecondsPerInvocation="141"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.LoadedFieldSetFactory" totalMilliseconds="15" invocations="691" avgMicrosecondsPerInvocation="22" maxMicrosecondsPerInvocation="1770" standardDeviationMircosecondsPerInvocation="72"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindUnrelatedTypesInGenericContainer" totalMilliseconds="16" invocations="127" avgMicrosecondsPerInvocation="126" maxMicrosecondsPerInvocation="962" standardDeviationMircosecondsPerInvocation="146"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteCheckReturnValueAnnotations" totalMilliseconds="16" invocations="512" avgMicrosecondsPerInvocation="31" maxMicrosecondsPerInvocation="913" standardDeviationMircosecondsPerInvocation="66"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteCheckReturnValue" totalMilliseconds="16" invocations="512" avgMicrosecondsPerInvocation="31" maxMicrosecondsPerInvocation="652" standardDeviationMircosecondsPerInvocation="54"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNonShortCircuit" totalMilliseconds="16" invocations="127" avgMicrosecondsPerInvocation="131" maxMicrosecondsPerInvocation="1607" standardDeviationMircosecondsPerInvocation="195"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindHEmismatch" totalMilliseconds="16" invocations="127" avgMicrosecondsPerInvocation="132" maxMicrosecondsPerInvocation="743" standardDeviationMircosecondsPerInvocation="141"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.InfiniteLoop" totalMilliseconds="17" invocations="127" avgMicrosecondsPerInvocation="134" maxMicrosecondsPerInvocation="1088" standardDeviationMircosecondsPerInvocation="173"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.MethodReturnCheck" totalMilliseconds="17" invocations="127" avgMicrosecondsPerInvocation="134" maxMicrosecondsPerInvocation="955" standardDeviationMircosecondsPerInvocation="162"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteAnnotationRetention" totalMilliseconds="17" invocations="512" avgMicrosecondsPerInvocation="34" maxMicrosecondsPerInvocation="590" standardDeviationMircosecondsPerInvocation="56"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteNonNullAnnotations" totalMilliseconds="17" invocations="512" avgMicrosecondsPerInvocation="35" maxMicrosecondsPerInvocation="684" standardDeviationMircosecondsPerInvocation="50"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.DepthFirstSearchFactory" totalMilliseconds="18" invocations="941" avgMicrosecondsPerInvocation="19" maxMicrosecondsPerInvocation="393" standardDeviationMircosecondsPerInvocation="30"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteJCIPAnnotation" totalMilliseconds="18" invocations="512" avgMicrosecondsPerInvocation="36" maxMicrosecondsPerInvocation="916" standardDeviationMircosecondsPerInvocation="63"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.RepeatedConditionals" totalMilliseconds="18" invocations="127" avgMicrosecondsPerInvocation="148" maxMicrosecondsPerInvocation="1113" standardDeviationMircosecondsPerInvocation="180"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ConstantPoolGenFactory" totalMilliseconds="19" invocations="127" avgMicrosecondsPerInvocation="152" maxMicrosecondsPerInvocation="4529" standardDeviationMircosecondsPerInvocation="403"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.MethodFactory" totalMilliseconds="19" invocations="549" avgMicrosecondsPerInvocation="35" maxMicrosecondsPerInvocation="432" standardDeviationMircosecondsPerInvocation="48"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.LazyInit" totalMilliseconds="19" invocations="127" avgMicrosecondsPerInvocation="154" maxMicrosecondsPerInvocation="17366" standardDeviationMircosecondsPerInvocation="1533"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.DuplicateBranches" totalMilliseconds="21" invocations="127" avgMicrosecondsPerInvocation="165" maxMicrosecondsPerInvocation="3072" standardDeviationMircosecondsPerInvocation="370"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.RuntimeExceptionCapture" totalMilliseconds="21" invocations="127" avgMicrosecondsPerInvocation="170" maxMicrosecondsPerInvocation="1131" standardDeviationMircosecondsPerInvocation="229"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindSelfComparison" totalMilliseconds="21" invocations="127" avgMicrosecondsPerInvocation="171" maxMicrosecondsPerInvocation="1238" standardDeviationMircosecondsPerInvocation="216"/>
+      <ClassProfile name="edu.umd.cs.findbugs.ba.obl.ObligationAnalysis" totalMilliseconds="22" invocations="34" avgMicrosecondsPerInvocation="652" maxMicrosecondsPerInvocation="7929" standardDeviationMircosecondsPerInvocation="1361"/>
+      <ClassProfile name="edu.umd.cs.findbugs.DetectorToDetector2Adapter" totalMilliseconds="22" invocations="14344" avgMicrosecondsPerInvocation="1" maxMicrosecondsPerInvocation="94" standardDeviationMircosecondsPerInvocation="2"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteNonnullReturnValues" totalMilliseconds="25" invocations="127" avgMicrosecondsPerInvocation="201" maxMicrosecondsPerInvocation="3569" standardDeviationMircosecondsPerInvocation="347"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindPuzzlers" totalMilliseconds="25" invocations="127" avgMicrosecondsPerInvocation="202" maxMicrosecondsPerInvocation="1447" standardDeviationMircosecondsPerInvocation="247"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindSqlInjection" totalMilliseconds="27" invocations="127" avgMicrosecondsPerInvocation="214" maxMicrosecondsPerInvocation="1333" standardDeviationMircosecondsPerInvocation="261"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNullDeref" totalMilliseconds="27" invocations="127" avgMicrosecondsPerInvocation="214" maxMicrosecondsPerInvocation="2522" standardDeviationMircosecondsPerInvocation="285"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteSuppressedWarnings" totalMilliseconds="27" invocations="512" avgMicrosecondsPerInvocation="54" maxMicrosecondsPerInvocation="2207" standardDeviationMircosecondsPerInvocation="118"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.SwitchFallthrough" totalMilliseconds="29" invocations="127" avgMicrosecondsPerInvocation="234" maxMicrosecondsPerInvocation="1514" standardDeviationMircosecondsPerInvocation="288"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindOpenStream" totalMilliseconds="36" invocations="127" avgMicrosecondsPerInvocation="286" maxMicrosecondsPerInvocation="8233" standardDeviationMircosecondsPerInvocation="1128"/>
+      <ClassProfile name="edu.umd.cs.findbugs.NonReportingDetectorToDetector2Adapter" totalMilliseconds="38" invocations="6910" avgMicrosecondsPerInvocation="5" maxMicrosecondsPerInvocation="299" standardDeviationMircosecondsPerInvocation="8"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.DumbMethods" totalMilliseconds="38" invocations="127" avgMicrosecondsPerInvocation="305" maxMicrosecondsPerInvocation="2380" standardDeviationMircosecondsPerInvocation="382"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.StreamResourceTracker" totalMilliseconds="40" invocations="35" avgMicrosecondsPerInvocation="1161" maxMicrosecondsPerInvocation="1995" standardDeviationMircosecondsPerInvocation="528"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindDeadLocalStores" totalMilliseconds="42" invocations="127" avgMicrosecondsPerInvocation="338" maxMicrosecondsPerInvocation="3359" standardDeviationMircosecondsPerInvocation="504"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindRefComparison" totalMilliseconds="47" invocations="127" avgMicrosecondsPerInvocation="371" maxMicrosecondsPerInvocation="2062" standardDeviationMircosecondsPerInvocation="419"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.UnreadFields" totalMilliseconds="50" invocations="127" avgMicrosecondsPerInvocation="400" maxMicrosecondsPerInvocation="2335" standardDeviationMircosecondsPerInvocation="473"/>
+      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.TypeQualifierNullnessAnnotationDatabase" totalMilliseconds="55" invocations="7289" avgMicrosecondsPerInvocation="7" maxMicrosecondsPerInvocation="1718" standardDeviationMircosecondsPerInvocation="30"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.impl.ZipCodeBaseFactory" totalMilliseconds="60" invocations="13" avgMicrosecondsPerInvocation="4649" maxMicrosecondsPerInvocation="58471" standardDeviationMircosecondsPerInvocation="15537"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.NumberConstructor" totalMilliseconds="62" invocations="127" avgMicrosecondsPerInvocation="495" maxMicrosecondsPerInvocation="50914" standardDeviationMircosecondsPerInvocation="4493"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindInconsistentSync2" totalMilliseconds="65" invocations="127" avgMicrosecondsPerInvocation="514" maxMicrosecondsPerInvocation="3962" standardDeviationMircosecondsPerInvocation="621"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.ReadOfInstanceFieldInMethodInvokedByConstructorInSuperclass" totalMilliseconds="69" invocations="127" avgMicrosecondsPerInvocation="544" maxMicrosecondsPerInvocation="52404" standardDeviationMircosecondsPerInvocation="4623"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNullDeref$CheckCallSitesAndReturnInstructions" totalMilliseconds="75" invocations="691" avgMicrosecondsPerInvocation="108" maxMicrosecondsPerInvocation="27383" standardDeviationMircosecondsPerInvocation="1045"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.URLProblems" totalMilliseconds="78" invocations="127" avgMicrosecondsPerInvocation="617" maxMicrosecondsPerInvocation="6572" standardDeviationMircosecondsPerInvocation="976"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.LoadOfKnownNullValue" totalMilliseconds="82" invocations="127" avgMicrosecondsPerInvocation="650" maxMicrosecondsPerInvocation="4207" standardDeviationMircosecondsPerInvocation="874"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.LiveLocalStoreDataflowFactory" totalMilliseconds="83" invocations="646" avgMicrosecondsPerInvocation="129" maxMicrosecondsPerInvocation="3629" standardDeviationMircosecondsPerInvocation="291"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.SerializableIdiom" totalMilliseconds="94" invocations="127" avgMicrosecondsPerInvocation="741" maxMicrosecondsPerInvocation="19964" standardDeviationMircosecondsPerInvocation="3020"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.ReflectiveClasses" totalMilliseconds="114" invocations="512" avgMicrosecondsPerInvocation="224" maxMicrosecondsPerInvocation="5512" standardDeviationMircosecondsPerInvocation="558"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.JavaClassAnalysisEngine" totalMilliseconds="133" invocations="657" avgMicrosecondsPerInvocation="203" maxMicrosecondsPerInvocation="9650" standardDeviationMircosecondsPerInvocation="480"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.EqualsOperandShouldHaveClassCompatibleWithThis" totalMilliseconds="133" invocations="512" avgMicrosecondsPerInvocation="260" maxMicrosecondsPerInvocation="5811" standardDeviationMircosecondsPerInvocation="522"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ConstantDataflowFactory" totalMilliseconds="151" invocations="691" avgMicrosecondsPerInvocation="218" maxMicrosecondsPerInvocation="5994" standardDeviationMircosecondsPerInvocation="484"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.MethodGenFactory" totalMilliseconds="161" invocations="740" avgMicrosecondsPerInvocation="218" maxMicrosecondsPerInvocation="29374" standardDeviationMircosecondsPerInvocation="1101"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.BuildObligationPolicyDatabase" totalMilliseconds="167" invocations="512" avgMicrosecondsPerInvocation="326" maxMicrosecondsPerInvocation="4706" standardDeviationMircosecondsPerInvocation="512"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.CalledMethods" totalMilliseconds="185" invocations="512" avgMicrosecondsPerInvocation="361" maxMicrosecondsPerInvocation="6129" standardDeviationMircosecondsPerInvocation="748"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.OverridingEqualsNotSymmetrical" totalMilliseconds="226" invocations="512" avgMicrosecondsPerInvocation="441" maxMicrosecondsPerInvocation="6425" standardDeviationMircosecondsPerInvocation="777"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindRefComparison$SpecialTypeAnalysis" totalMilliseconds="269" invocations="452" avgMicrosecondsPerInvocation="596" maxMicrosecondsPerInvocation="8947" standardDeviationMircosecondsPerInvocation="876"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.CFGFactory" totalMilliseconds="272" invocations="691" avgMicrosecondsPerInvocation="394" maxMicrosecondsPerInvocation="10912" standardDeviationMircosecondsPerInvocation="635"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassDataAnalysisEngine" totalMilliseconds="273" invocations="1671" avgMicrosecondsPerInvocation="163" maxMicrosecondsPerInvocation="12311" standardDeviationMircosecondsPerInvocation="409"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine" totalMilliseconds="372" invocations="1669" avgMicrosecondsPerInvocation="223" maxMicrosecondsPerInvocation="20682" standardDeviationMircosecondsPerInvocation="709"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteDirectlyRelevantTypeQualifiers" totalMilliseconds="400" invocations="512" avgMicrosecondsPerInvocation="781" maxMicrosecondsPerInvocation="29507" standardDeviationMircosecondsPerInvocation="2086"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.UnconditionalValueDerefDataflowFactory" totalMilliseconds="519" invocations="691" avgMicrosecondsPerInvocation="752" maxMicrosecondsPerInvocation="24190" standardDeviationMircosecondsPerInvocation="1655"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.TypeDataflowFactory" totalMilliseconds="555" invocations="710" avgMicrosecondsPerInvocation="782" maxMicrosecondsPerInvocation="169148" standardDeviationMircosecondsPerInvocation="6410"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.IsNullValueDataflowFactory" totalMilliseconds="567" invocations="691" avgMicrosecondsPerInvocation="821" maxMicrosecondsPerInvocation="14365" standardDeviationMircosecondsPerInvocation="1435"/>
+      <ClassProfile name="edu.umd.cs.findbugs.FindBugs2" totalMilliseconds="632" invocations="2" avgMicrosecondsPerInvocation="316288" maxMicrosecondsPerInvocation="490189" standardDeviationMircosecondsPerInvocation="173901"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ValueNumberDataflowFactory" totalMilliseconds="654" invocations="955" avgMicrosecondsPerInvocation="685" maxMicrosecondsPerInvocation="16714" standardDeviationMircosecondsPerInvocation="1509"/>
+      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.NullDerefAndRedundantComparisonFinder" totalMilliseconds="699" invocations="691" avgMicrosecondsPerInvocation="1011" maxMicrosecondsPerInvocation="208179" standardDeviationMircosecondsPerInvocation="8019"/>
+      <ClassProfile name="edu.umd.cs.findbugs.OpcodeStack$JumpInfoFactory" totalMilliseconds="861" invocations="8757" avgMicrosecondsPerInvocation="98" maxMicrosecondsPerInvocation="115350" standardDeviationMircosecondsPerInvocation="1244"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FieldItemSummary" totalMilliseconds="962" invocations="512" avgMicrosecondsPerInvocation="1879" maxMicrosecondsPerInvocation="205208" standardDeviationMircosecondsPerInvocation="9578"/>
+    </FindBugsProfile>
+  </FindBugsSummary>
+  <ClassFeatures></ClassFeatures>
+  <History></History>
+</BugCollection>
