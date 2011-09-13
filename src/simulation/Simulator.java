@@ -22,6 +22,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import javax.script.ScriptException;
 import simulation.geometry.Collision;
 import simulation.geometry.Entity;
+import simulation.geometry.Terrain;
 import ux.usercontrol.DeflatedSimulator;
 
 
@@ -33,7 +34,7 @@ import ux.usercontrol.DeflatedSimulator;
  * @author Simon, Andrew L, Michael
  */
 public class Simulator implements SimulatorPublisher, Serializable {
-       
+
     // Tweakable values
     public static final double                    FPS                   = 50;
     public static final double                    DT                    = 1 / FPS;
@@ -41,7 +42,7 @@ public class Simulator implements SimulatorPublisher, Serializable {
     private static final double                   SPILL_SIZE            = 150;
     private static final double                   DEADZONE              = RobotOutput.MAX_MOTOR / 20;
     private static final double                   ROTATE_INCREMENT      = Math.PI/180;
-    
+
     // Simulation state containers and values
     private long                                  steps                 = 0;    // NB: this value will wrap around after 6 million millennia
     private Environment                           environment;
@@ -49,12 +50,12 @@ public class Simulator implements SimulatorPublisher, Serializable {
     private transient ScriptException             issue;
     private transient RobotOutput                 output;
     private Collection<Robot>                     robots;
-    
+
     // Utilities
     private transient Random                      rand;
     private transient Scheduler                   scheduler;
     private transient Collection<SimulatorSubscriber> subscribers  = new CopyOnWriteArrayList<SimulatorSubscriber>();
-    private static final long serialVersionUID = 1L; 
+    private static final long serialVersionUID = 1L;
 
     /**
      * A new Simulator object sets up the field in a fresh state.
@@ -109,7 +110,7 @@ public class Simulator implements SimulatorPublisher, Serializable {
      * @return True if no terrains, robots and Inanimates exist in simulator
      */
     public boolean isEmpty(){
-            
+
         if(!this.getEnvironment().hasNoTerrain()){
             return false;
         }
@@ -186,7 +187,7 @@ public class Simulator implements SimulatorPublisher, Serializable {
             } else {
                 robot.setVelocity(0);
             }
-            
+
             // collecting a cup or moving a block
             if (output.isArmActive()) {
                 for (Cup cup : inanimates) {
@@ -201,7 +202,7 @@ public class Simulator implements SimulatorPublisher, Serializable {
                         } else {
                             robot.setCollectionProgress(progress + 1);
                         }
-                    } 
+                    }
                 }
             } else {
                 robot.setCollectionProgress(0);
@@ -211,7 +212,7 @@ public class Simulator implements SimulatorPublisher, Serializable {
     }
 
     /**
-     * Calculates the potential new position of a robot given its current state and motor outputs. No collision 
+     * Calculates the potential new position of a robot given its current state and motor outputs. No collision
      * detection is done here.
      * @param robot The robot to be updated
      * @param output The robot's output
@@ -225,7 +226,7 @@ public class Simulator implements SimulatorPublisher, Serializable {
         // TODO: Do this properly
 
         newShape.rotate(steering * robot.getVelocity() / 10000);
-        
+
         double acceleration = robot.getPower() * motorOut / robot.getMass();
 
         // Some non-linear motor deadzoning
@@ -257,7 +258,7 @@ public class Simulator implements SimulatorPublisher, Serializable {
      * @param newShape The Rigidbody representing the robot's potential new state
      * @return false if the Robot is not in a legal position, otherwise returns true.
      */
-    private boolean resolve(Robot robot, RigidBody newShape) {      
+    private boolean resolve(Robot robot, RigidBody newShape) {
         for (Robot otherRobot : robots) {
             if ((otherRobot != robot) && newShape.intersects(otherRobot)) {
                 return false;
@@ -298,7 +299,7 @@ public class Simulator implements SimulatorPublisher, Serializable {
                     if(infiniteLoopCheck > 100) {
                         return false;
                     }
-                    
+
                     if (!robotIntoCup(robot, cup, shapeOnInanimateCol.getAngle())) {
                         return false;
                     }
@@ -311,7 +312,7 @@ public class Simulator implements SimulatorPublisher, Serializable {
                 // another robot, destroy the cup
                 for(Robot otherRobot : robots) {
                     robotVelocity = robot.getVelocity();
-                
+
                     if(otherRobot != robot) {
                         double criticalAngle = Math.atan2(otherRobot.getWidth(), otherRobot.getLength());
                         Collision cupOnRobotCol = otherRobot.collideWith(cup, criticalAngle);
@@ -327,11 +328,11 @@ public class Simulator implements SimulatorPublisher, Serializable {
                 // If a cup hits the environment, crush it
                 if(enviroOnCupCol.occurred()) {
                     cupIntoEnvironment(cup);
-                    
+
                     return false;
                 }
             }
-            
+
 
             for (Cup otherCup : inanimates) {
                 robotVelocity = robot.getVelocity();
@@ -340,7 +341,7 @@ public class Simulator implements SimulatorPublisher, Serializable {
                 // If an inanimate is hitting another inanimate
                 if((otherCup != cup) && cupOnCupColl.occurred()) {
                     while ((otherCup != cup) && cupOnCupColl.occurred()) {
-                        
+
                         cupIntoCup(robot, otherCup, cupOnCupColl.getAngle());
                         cupOnCupColl = otherCup.collideWith(cup, 0);
                     }
@@ -351,7 +352,7 @@ public class Simulator implements SimulatorPublisher, Serializable {
                     // If a cup hits the environment, crush it
                     if(enviroOnOtherCupCol.occurred()) {
                         cupIntoEnvironment(otherCup);
-                        
+
                         return false;
                     }
 
@@ -369,12 +370,12 @@ public class Simulator implements SimulatorPublisher, Serializable {
                         }
                     }
                 }
-                
+
             }
-           
+
         }
         return true;
-    }          
+    }
 
     //<editor-fold defaultstate="collapsed" desc="Special cases of collision response">
     /**
@@ -396,15 +397,15 @@ public class Simulator implements SimulatorPublisher, Serializable {
 
         double newVelocityFactor = Math.abs(Math.sin(angleOfIncidence));
         double glancingAngle;
-        
-        
+
+
         if(angleOfIncidence > 2*Math.PI) {
             angleOfIncidence %= 2*Math.PI;
         }
         if(Math.abs(angleOfIncidence - 2*Math.PI) < Math.abs(angleOfIncidence)) {
             angleOfIncidence -= 2*Math.PI;
         }
-        
+
         if(Math.abs(angleOfIncidence) > Math.PI/2) {
             if(Math.abs(angleOfIncidence - Math.PI) < Math.abs(angleOfIncidence)) {
                 glancingAngle = angleOfIncidence - Math.PI;
@@ -414,15 +415,15 @@ public class Simulator implements SimulatorPublisher, Serializable {
         } else {
             glancingAngle = angleOfIncidence;
         }
-        
+
         // If the robot is hitting a wall head on or rear on, stop it
         if(Math.abs(glancingAngle) < ROTATE_INCREMENT) {
             return false;
         }
-        
+
         // If the com of the robot is before or past the line normal to the wall
         // glance or deflect the robot accordingly
-        
+
         // Not glancing wall collision
         if(Math.abs(glancingAngle) < robot.getGlancingThreshold()){
             double incidenceFactor;
@@ -431,10 +432,10 @@ public class Simulator implements SimulatorPublisher, Serializable {
             } else {
                 incidenceFactor = 1;
             }
-            
+
             double XRotPoint;
             double YRotPoint;
-            
+
             // Different calculations depending on if the robot is driving forwards
             // or backwards
             if(direction == 1) {
@@ -443,24 +444,24 @@ public class Simulator implements SimulatorPublisher, Serializable {
             } else {
                 XRotPoint = robot.getCom().getX() + incidenceFactor*Math.cos(newShape.getAngle() + Math.PI)*robot.getWidth()/2 - Math.sin(newShape.getAngle() + Math.PI)*robot.getLength()/2;
                 YRotPoint = robot.getCom().getY() + incidenceFactor*Math.sin(newShape.getAngle() + Math.PI)*robot.getWidth()/2 + Math.cos(newShape.getAngle() + Math.PI)*robot.getLength()/2;
-                System.out.println("Rel X:"+(XRotPoint-robot.getCom().getX()));
-                System.out.println("Rel Y:"+(YRotPoint-robot.getCom().getY()));
+//                System.out.println("Rel X:"+(XRotPoint-robot.getCom().getX()));
+//                System.out.println("Rel Y:"+(YRotPoint-robot.getCom().getY()));
             }
-            
+
             newShape.rotateAboutPoint(incidenceFactor*ROTATE_INCREMENT, new XPoint(XRotPoint, YRotPoint));
-            
+
             // Glancing wall collision
         } else {
             double rotateAngle = 2*Math.sin(angleOfIncidence)*ROTATE_INCREMENT;
             robot.setVelocity(robot.getVelocity() * newVelocityFactor);
             newShape.rotate(rotateAngle);
         }
-        
+
         return true;
-        
+
     }
-    
-    
+
+
     /**
      * Special case collision response for a robot into an inanimate object
      * @param robot The robot being resolved
@@ -478,8 +479,8 @@ public class Simulator implements SimulatorPublisher, Serializable {
 
         return true;
     }
-    
-    
+
+
     /**
      * Special case collision response for an inanimate into the environment
      * @param cup The cup which has collided into an element of the environment
@@ -491,7 +492,7 @@ public class Simulator implements SimulatorPublisher, Serializable {
         inanimates.remove(cup);
         environment.createNewPassableTerrain(new RigidBody(cup), 0.9);
     }
-        
+
     /**
      * A cup being pushed into another cup
      * @param robot The robot doing the pushing
@@ -514,27 +515,27 @@ public class Simulator implements SimulatorPublisher, Serializable {
         // Move the cup
         cup.translate(xTrans, yTrans);
     }
-    
-       
+
+
     /**
      * A cup being pushed into a robot
      * @param cup The cup being pushed
      */
     private void CupIntoRobot(Cup cup){
-        if (cup.knockOver()) { 
+        if (cup.knockOver()) {
             environment.spillHotCoffeeEverywhere(cup.getCom(), SPILL_SIZE);
         }
         inanimates.remove(cup);
         environment.createNewPassableTerrain(new RigidBody(cup), 0.9);
     }
-    
+
     //</editor-fold>
 
     /**
      * Object inflation routine. Default behaviour plus reinitialization of threaded fields
      * @param in
      * @throws IOException
-     * @throws ClassNotFoundException 
+     * @throws ClassNotFoundException
      */
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
@@ -563,7 +564,7 @@ public class Simulator implements SimulatorPublisher, Serializable {
             return new NixScheduler(this);
         }
     }
-    
+
     //<editor-fold defaultstate="collapsed" desc="Accessors and mutators for subscribers">
     /**
      * @return The length in seconds of the current simulation
@@ -572,7 +573,7 @@ public class Simulator implements SimulatorPublisher, Serializable {
     public double getTimeElapsed() {
         return DT * steps;
     }
-    
+
     /**
      * If this is null all is well. If a
      * ScriptException object is returned then
@@ -582,12 +583,12 @@ public class Simulator implements SimulatorPublisher, Serializable {
     @Override
     public ScriptException getIssue() {
         ScriptException temp = issue;
-        
+
         issue = null;
-        
+
         return temp;
     }
-    
+
     /**
      * @param subscriber The subscriber to be added to the list of subscribers
      */
@@ -595,7 +596,7 @@ public class Simulator implements SimulatorPublisher, Serializable {
     public void addSubscriber(final SimulatorSubscriber subscriber) {
         subscribers.add(subscriber);
     }
-    
+
     /**
      * @param subscriber The subscriber to me removed from the list of subscribers
      */
@@ -603,7 +604,7 @@ public class Simulator implements SimulatorPublisher, Serializable {
     public void removeSubscriber(final SimulatorSubscriber subscriber) {
         subscribers.remove(subscriber);
     }
-    
+
     /**
      * Notifies all subscribers that the simulation is ready to be painted
      */
@@ -612,7 +613,7 @@ public class Simulator implements SimulatorPublisher, Serializable {
             subscriber.update(this);
         }
     }
-    
+
     /**
      * Requests that all subscribers reset their state
      */
@@ -621,7 +622,7 @@ public class Simulator implements SimulatorPublisher, Serializable {
             subscriber.simulatorResetted(this);
         }
     }
-    
+
     /**
      * @return All robots currently in play
      */
@@ -629,7 +630,7 @@ public class Simulator implements SimulatorPublisher, Serializable {
     public Collection<? extends Robot> getRobots() {
         return Collections.unmodifiableCollection(robots);
     }
-    
+
     /**
      * @return The singular environment object with it's boundary and terrain descriptions
      */
@@ -637,7 +638,7 @@ public class Simulator implements SimulatorPublisher, Serializable {
     public Environment getEnvironment() {
         return environment;
     }
-    
+
     /**
      * @return All the things!
      */
@@ -645,7 +646,7 @@ public class Simulator implements SimulatorPublisher, Serializable {
     public Collection<Cup> getThings() {
         return Collections.unmodifiableCollection(inanimates);
     }
-    
+
     /**
      * @return Access to the scheduler running this simulation
      */
@@ -659,7 +660,7 @@ public class Simulator implements SimulatorPublisher, Serializable {
      *
      */
     public void deleteEntity(Entity deletionEntity) {
-        
+
         for (Entity entity : inanimates) {
             if (deletionEntity == entity) {
                 inanimates.remove(deletionEntity);
@@ -676,7 +677,7 @@ public class Simulator implements SimulatorPublisher, Serializable {
             }
         }
     }
-    
+
     @Override
     public boolean isInSimulator(RigidBody object) {
         Collection<RigidBody> simulationObjects = new LinkedList<RigidBody>();
@@ -703,5 +704,29 @@ public class Simulator implements SimulatorPublisher, Serializable {
         robots.addAll(backupSimulator.robots);
         inanimates.addAll(backupSimulator.inanimates);
     }
+
+    public boolean canPlace(RigidBody oldShape, RigidBody newShape) {
+        for (Terrain otherEntity : environment.getTerrain()) {
+            if (otherEntity != oldShape && otherEntity.intersects(newShape)) {
+                return false;
+            }
+        }
+
+        for (Cup otherEntity : inanimates) {
+            if (otherEntity != oldShape && otherEntity.intersects(newShape)) {
+                return false;
+            }
+        }
+
+        for (Robot otherEntity : robots) {
+            if (otherEntity != oldShape && otherEntity.intersects(newShape)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+
 
 }

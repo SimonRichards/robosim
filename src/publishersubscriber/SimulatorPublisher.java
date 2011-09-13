@@ -77,6 +77,8 @@ public interface SimulatorPublisher {
      * @return Scheduler
      */
     Scheduler getScheduler();
+
+    public boolean canPlace(RigidBody oldShape, RigidBody newShape);
 }
 
 

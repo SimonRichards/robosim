@@ -55,16 +55,19 @@ public class SimulatorController implements SimulatorSubscriber {
         }
     }
 
-    public void pauseSimulator() {
-        if (mode == Mode.SIMULATION) {
+    public boolean pauseSimulator() {
+        if (mode == Mode.SIMULATION && scheduler.isRunning()) {
             setGuiPaused();
             scheduler.pause();
+            return true;
+        } else {
+            return false;
         }
     }
 
     /**
      * sets the simulation mode to either simulate or active
-     * @param mode 
+     * @param mode
      */
     public void setMode(Mode mode) {
         this.mode = mode;

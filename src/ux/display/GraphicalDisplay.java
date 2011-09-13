@@ -1,5 +1,6 @@
 package ux.display;
 
+import ux.painters.OutlinePainter;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -48,8 +49,6 @@ import ux.usercontrol.SimulatorControlGui;
 import ux.usercontrol.SimulatorController;
 import ux.usercontrol.SimulatorController.Mode;
 
-
-
 /**
  * {@code GraphicalDisplay} is a {@code JPanel} that displays a graphical
  * representation of of a robot simulator. It is a subscriber of a
@@ -65,51 +64,47 @@ import ux.usercontrol.SimulatorController.Mode;
  *
  */
 public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
-                                    SelectionPublisher, SimulatorControlGui {
+        SelectionPublisher, SimulatorControlGui {
     // The controller to use to control the simulator.
-    private SimulatorController controller;
 
+    private SimulatorController controller;
     // The publisher representing the underlying simulator.
     private SimulatorPublisher simulatorPublisher;
-
     // Subscribers to update when a simulation item is selected.
     private Collection<SelectionSubscriber> subscribers = new HashSet<SelectionSubscriber>();
-
     // Simulation Items.
-    private Collection<? extends Robot>   robots;
-    private Collection<? extends Cup>  inanimates;
+    private Collection<? extends Robot> robots;
+    private Collection<? extends Cup> inanimates;
     private Collection<? extends Terrain> terrain;
-
     // Swing components.
-    private JLabel                                 timeElapsedLabel = new JLabel();
-    private String                                 mousePositionDisplay;
-    private Point2D.Double                         mousePosition;
-    private JLabel                                 mousePositionLabel = new JLabel();
-    private Environment                            environment;
-
+    private JLabel timeElapsedLabel = new JLabel();
+    private String mousePositionDisplay;
+    private Point2D.Double mousePosition;
+    private JLabel mousePositionLabel = new JLabel();
+    private Environment environment;
     // The displays painters: these are delegated a role in painting on the
     // panel's canvas.
-    private EnvironmentPainter                     environmentPainter;
-    private ItemPainter                            itemPainter;
-    private RobotPainter                           robotPainter;
-    private SelectedPainter                        selectedPainter;
-    private TerrainPainter                         terrainPainter;
-    private SensorPainter                          sensorPainter;
-    private VelocityVectorPainter                  velocityVectorPainter;
-    private RigidBody                              selectedItem;
-    private RigidBody                              draggedItem;
-    private double                                 draggingOffsetX,
-                                                   draggingOffsetY;
-
+    private EnvironmentPainter environmentPainter;
+    private ItemPainter itemPainter;
+    private RobotPainter robotPainter;
+    private SelectedPainter selectedPainter;
+    private TerrainPainter terrainPainter;
+    private SensorPainter sensorPainter;
+    private VelocityVectorPainter velocityVectorPainter;
+    private OutlinePainter outlinePainter;
+    private RigidBody selectedItem;
+    private RigidBody draggedItem;
+    private RigidBody draggingOutline;
+    private double draggingOffsetX,
+            draggingOffsetY;
     // Painter switches- used to enable and disable individual painters.
-    private boolean isPaintEnvironmentOn =  true;
-    private boolean isPaintTerrainOn     =  true;
-    private boolean isPaintItemOn        =  true;
-    private boolean isPaintRobotOn       =  true;
-    private boolean isPaintSensorOn      =  true;
+    private boolean isPaintEnvironmentOn = true;
+    private boolean isPaintTerrainOn = true;
+    private boolean isPaintItemOn = true;
+    private boolean isPaintRobotOn = true;
+    private boolean isPaintSensorOn = true;
     private boolean isPaintVelocityVectorOn = true;
-    private boolean isPaintSelectedOn    =  true;
-
+    private boolean isPaintSelectedOn = true;
 
     /**
      * Constructs a GraphicalDisplay and subscribes the display to
@@ -127,10 +122,10 @@ public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
         simulatorPublisher.addSubscriber(this);
 
         // Retrieve the simulation items from the simulator.
-        robots      = simulatorPublisher.getRobots();
-        inanimates      = simulatorPublisher.getThings();
+        robots = simulatorPublisher.getRobots();
+        inanimates = simulatorPublisher.getThings();
         environment = simulatorPublisher.getEnvironment();
-        terrain     = environment.getTerrain();
+        terrain = environment.getTerrain();
 
         // Give the panel a layout. This is needed to position components such
         // as the timeElapsedLabel.
@@ -139,7 +134,7 @@ public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
         mousePositionDisplay = "";
         add(mousePositionLabel);
 
-        setPreferredSize(new Dimension(500,500));
+        setPreferredSize(new Dimension(500, 500));
 
         // Initialise the painters.
         setDefaultPainters();
@@ -157,12 +152,13 @@ public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
      */
     protected void setDefaultPainters() {
         environmentPainter = new EnvironmentPainterImp();
-        robotPainter       = new RobotPainterProgressImp2();
-        sensorPainter      = new SensorPainterImp();
-        terrainPainter     = new TerrainPainterImp2();
-        itemPainter        = new ItemPainterImp();
+        robotPainter = new RobotPainterProgressImp2();
+        sensorPainter = new SensorPainterImp();
+        terrainPainter = new TerrainPainterImp2();
+        itemPainter = new ItemPainterImp();
         velocityVectorPainter = new VelocityVectorPainterImp();
-        selectedPainter    = new SelectedPainterImp();
+        selectedPainter = new SelectedPainterImp();
+        outlinePainter = new OutlinePainter();
     }
 
     /**
@@ -183,50 +179,57 @@ public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
         // Depending on whether a painter is enabled, use the painters to paint
         // on the canvas.
 
-        if(isPaintEnvironmentOn) {
+
+
+        if (isPaintEnvironmentOn) {
             if (environment != null) {
                 environmentPainter.paint(environment, getShapeTransform(), graphics2D);
             }
         }
 
-        if(isPaintTerrainOn) {
+        if (isPaintTerrainOn) {
             for (Terrain aTerrain : terrain) {
                 terrainPainter.paint(aTerrain, getShapeTransform(), graphics2D);
             }
         }
 
-        if(isPaintItemOn) {
+        if (isPaintItemOn) {
             for (Cup thing : inanimates) {
                 itemPainter.paint(thing, getShapeTransform(), graphics2D);
             }
         }
 
-        if(isPaintRobotOn) {
+        if (isPaintRobotOn) {
             for (Robot robot : robots) {
                 robotPainter.paint(robot, getShapeTransform(), graphics2D);
             }
         }
 
-        if(isPaintSensorOn && simulatorPublisher.getScheduler().isRunning()) {
+        if (isPaintSensorOn && simulatorPublisher.getScheduler().isRunning()) {
             for (Robot robot : robots) {
                 sensorPainter.paint(robot, getShapeTransform(), graphics2D);
             }
         }
 
-        if(isPaintVelocityVectorOn){
-            for (Robot robot : robots){
+        if (isPaintVelocityVectorOn) {
+            for (Robot robot : robots) {
                 velocityVectorPainter.paint(robot, getShapeTransform(), graphics2D);
             }
         }
 
-        if(isPaintSelectedOn) {
-           if (selectedItem != null) {
+        if (isPaintSelectedOn) {
+            if (selectedItem != null) {
                 selectedPainter.paint(selectedItem, getShapeTransform(), graphics2D);
             }
         }
-        if(mousePosition != null){
+
+        if (draggingOutline != null) {
+            outlinePainter.paint(draggingOutline, getShapeTransform(), graphics2D);
+        }
+
+        if (mousePosition != null) {
             graphics2D.setColor(Color.GRAY); // Gray works well as it can be seen against black terrain
-            graphics2D.drawString(mousePositionDisplay, (int)mousePosition.x, (int)mousePosition.y);
+            graphics2D.drawString(mousePositionDisplay, (int) mousePosition.x, (int) mousePosition.y);
         }
     }
 
@@ -240,20 +243,21 @@ public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
      */
     public void update(SimulatorPublisher simulatorPublisher) {
         // Update all the collections of simulator objects.
-        robots      = simulatorPublisher.getRobots();
-        inanimates  = simulatorPublisher.getThings();
+        robots = simulatorPublisher.getRobots();
+        inanimates = simulatorPublisher.getThings();
         environment = simulatorPublisher.getEnvironment();
-        terrain     = environment.getTerrain();
+        terrain = environment.getTerrain();
 
         // Update the time-elapsed.
-        double timeElapsed       = simulatorPublisher.getTimeElapsed();
+        double timeElapsed = simulatorPublisher.getTimeElapsed();
         String timeElapsedString = new DecimalFormat("#.##").format(timeElapsed);
         timeElapsedLabel.setText("Time elapsed: " + timeElapsedString);
 
-        if(simulatorPublisher.isInSimulator(selectedItem))
+        if (simulatorPublisher.isInSimulator(selectedItem)) {
             this.setPaintSelectedOn(true);
-        else
+        } else {
             this.setPaintSelectedOn(false);
+        }
 
         // Cause the panel to refresh.
         revalidate();
@@ -272,9 +276,9 @@ public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
         // drawn do not overlap borders or other components. The -5 is
         // needed to move drawing area a little further inside the panel,
         // otherwise part of the outline is missing.
-        Insets insets      = getInsets();
-        int    panelHeight = getHeight() - insets.top - insets.bottom;
-        int    panelWidth  = getWidth() - insets.left - insets.right;
+        Insets insets = getInsets();
+        int panelHeight = getHeight() - insets.top - insets.bottom;
+        int panelWidth = getWidth() - insets.left - insets.right;
 
         // Choose a scaling factor that scales the shapes to fit in the drawing
         // area both horizontally and vertically. The most stringent scaling
@@ -282,12 +286,12 @@ public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
         // the shapes' size ratios while fitting in the drawing area.
         // The max x and y coordinates are used instead of width and height, as
         // the environment may not be centered at the origin.
-        double environmentWidth    = environment.getBounds().getMaxX();
-        double environmentHeight   = environment.getBounds().getMaxY();
-        double widthScalingFactor  = panelWidth / environmentWidth;
+        double environmentWidth = environment.getBounds().getMaxX();
+        double environmentHeight = environment.getBounds().getMaxY();
+        double widthScalingFactor = panelWidth / environmentWidth;
         double heightScalingFactor = panelHeight / environmentHeight;
-        double scalingFactor       = ((widthScalingFactor < heightScalingFactor)
-                                    ? widthScalingFactor : heightScalingFactor);
+        double scalingFactor = ((widthScalingFactor < heightScalingFactor)
+                ? widthScalingFactor : heightScalingFactor);
 
         // Create the transform.
         AffineTransform transform = new AffineTransform();
@@ -298,10 +302,10 @@ public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
         // Flip the coordinate system such that it appears to be a top-right
         // quadrant coordinate system.
         final double inset = 0.99;            //scales the image so it fits inside the display with a small buffer
-        final double halfInset = (1-inset)/2; //used in translation to move the image away from the bottom and left sides
+        final double halfInset = (1 - inset) / 2; //used in translation to move the image away from the bottom and left sides
 
         transform.scale(inset, -inset);
-        transform.translate(halfInset*panelWidth, - ( (1+halfInset) *panelHeight));
+        transform.translate(halfInset * panelWidth, -((1 + halfInset) * panelHeight));
 
         // Scale the shapes to fit the size of the drawing panel.
         transform.scale(scalingFactor, scalingFactor);
@@ -345,6 +349,7 @@ public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
      *
      */
     private class HighlightedObjectListener extends MouseAdapter {
+
         /**
          * Detects whether there is an item at the same location as where the
          * mouse was pressed. All SelectionSubscribers subscribed to the
@@ -370,7 +375,7 @@ public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
             for (RigidBody simulationObject : simulationObjects) {
                 // The shape must first be converted to the GUI coordinates.
                 Shape shapeInGuiCoords =
-                   getShapeTransform().createTransformedShape(simulationObject);
+                        getShapeTransform().createTransformedShape(simulationObject);
 
                 if (shapeInGuiCoords.contains(mouseX, mouseY)) {
                     selectedItem = simulationObject;
@@ -380,6 +385,7 @@ public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
             updateSubscribers(selectedItem);
         }
     }
+    private boolean pausedBySelection = false;
 
     /**
      * Detects an object being dragged and moves it appropriately.
@@ -388,6 +394,20 @@ public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
      *
      */
     private class DraggingObjectListener extends MouseAdapter {
+
+        private XPoint transformMouse(MouseEvent e) {
+            AffineTransform af = getShapeTransform();
+            try {
+                af.invert();
+            } catch (NoninvertibleTransformException ex) {
+            }
+            XPoint env = new XPoint(e.getX(), e.getY());
+            selectedItem.getCom();
+
+            af.transform(env, env);
+            return env;
+        }
+
         /**
          * Detects that the mouse button has been pressed and, if it has been
          * pressed on an object, pauses the simulator.
@@ -397,49 +417,39 @@ public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
         @Override
         public void mousePressed(MouseEvent e) {
             selectObjectAt(e.getX(), e.getY());
-            if(selectedItem != null){
-                controller.pauseSimulator();
-                AffineTransform af = getShapeTransform();
-                try{
-                    af.invert();
-                } catch(NoninvertibleTransformException ex) {
-
+            if (selectedItem != null) {
+                if (controller.pauseSimulator()) {
+                    pausedBySelection = true;
                 }
-                XPoint env = new XPoint(e.getX(), e.getY());
-                selectedItem.getCom();
+                XPoint env = transformMouse(e);
 
-                af.transform(env, env);
                 draggingOffsetX = selectedItem.getX() - env.getX();
                 draggingOffsetY = selectedItem.getY() - env.getY();
-                System.out.println("Offset = " + draggingOffsetX + ',' + draggingOffsetY);
+
+                draggingOutline = new RigidBody(selectedItem);
             }
         }
+
         /**
          * Tracks the coordinate path of the dragged mouse and moves the
          * selected object along the path.
          *
          * @param e
          */
-
         @Override
         public void mouseDragged(MouseEvent e) {
-            if( selectedItem != null ){
+            if (selectedItem != null) {
                 // New coordinates
                 double envX;
                 double envY;
                 draggedItem = selectedItem;
                 // Find how the environment is modified to the canvas
-                AffineTransform af = getShapeTransform();
-                try{af.invert();} catch(NoninvertibleTransformException ex) {}
-                XPoint env = new XPoint(e.getX(), e.getY());
-                selectedItem.getCom();
+                XPoint env = transformMouse(e);
 
-                af.transform(env, env);
-
-                envX = env.getX()> environment.getWidth() ? environment.getWidth() : env.getX() < 0 ? 0 : env.getX();
+                envX = env.getX() > environment.getWidth() ? environment.getWidth() : env.getX() < 0 ? 0 : env.getX();
                 envY = env.getY() > environment.getHeight() ? environment.getHeight() : env.getY() < 0 ? 0 : env.getY();
 
-                draggedItem.place(envX + draggingOffsetX, envY + draggingOffsetY);
+                draggingOutline.place(envX + draggingOffsetX, envY + draggingOffsetY);
             }
         }
 
@@ -450,11 +460,21 @@ public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
          */
         @Override
         public void mouseReleased(MouseEvent e) {
-            controller.startSimulator();
+            if (draggingOutline != null) {
+                XPoint env = transformMouse(e);
+                if (simulatorPublisher.canPlace(selectedItem, draggingOutline)) {
+                    selectedItem.place(env.getX() + draggingOffsetX, env.getY() + draggingOffsetY);
+                }
+                draggingOutline = null;
+            }
+            if (pausedBySelection) {
+                controller.startSimulator();
+                pausedBySelection = false;
             }
 
+        }
 
-        private void selectObjectAt(double x, double y){
+        private void selectObjectAt(double x, double y) {
             selectedItem = null;
 
             // Create a new collection with enough space for all objects.
@@ -475,7 +495,7 @@ public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
         }
     }
 
-     /**
+    /**
      * This listener tracks the position of the mouse on the environment
      *
      * @param e
@@ -485,27 +505,24 @@ public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
         @Override
         public void mouseMoved(MouseEvent e) {
 
-           AffineTransform af = new AffineTransform();
-           try{
-            af = getShapeTransform().createInverse();
-           }
-           catch (NoninvertibleTransformException et) {
+            AffineTransform af = new AffineTransform();
+            try {
+                af = getShapeTransform().createInverse();
+            } catch (NoninvertibleTransformException et) {
+            }
+            // Point to transform
+            mousePosition = new Point2D.Double(e.getX(), e.getY());
 
-           }
-           // Point to transform
-           mousePosition = new Point2D.Double(e.getX(), e.getY());
+            af.transform(mousePosition, mousePosition);
 
-           af.transform(mousePosition, mousePosition);
+            String xPointStr = Integer.toString((int) mousePosition.x);
+            String yPointStr = Integer.toString((int) mousePosition.y);
 
-           String xPointStr = Integer.toString((int)mousePosition.x);
-           String yPointStr = Integer.toString((int)mousePosition.y);
+            mousePositionDisplay = "(" + xPointStr + "," + yPointStr + ")";
 
-           mousePositionDisplay = "(" + xPointStr + "," + yPointStr + ")";
-
-           mousePosition.setLocation(e.getX(), e.getY());
+            mousePosition.setLocation(e.getX(), e.getY());
         }
     }
-
 
     @Override
     public void setResetted() {
@@ -515,20 +532,16 @@ public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
     @Override
     public void setStarted() {
         // TODO Auto-generated method stub
-
     }
 
     @Override
     public void setPaused() {
         // TODO Auto-generated method stub
-
     }
 
     @Override
     public void setMode(Mode mode) {
     }
-
-
 
     /**
      * Sets the graphical display's environment painter to the given
@@ -604,7 +617,6 @@ public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
     public boolean isPaintEnvironmentOn() {
         return isPaintEnvironmentOn;
     }
-
 
     /**
      * Enables or disables the environment painter.
@@ -706,7 +718,7 @@ public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
     }
 
     /**
-     VelocityVector* Returns whether the 'selected' painter is currently enabled.
+    VelocityVector* Returns whether the 'selected' painter is currently enabled.
      *
      * @return
      */
