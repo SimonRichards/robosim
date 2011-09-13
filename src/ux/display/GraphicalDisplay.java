@@ -461,9 +461,11 @@ public class GraphicalDisplay extends JPanel implements SimulatorSubscriber,
         @Override
         public void mouseReleased(MouseEvent e) {
             if (draggingOutline != null) {
-                XPoint env = transformMouse(e);
                 if (simulatorPublisher.canPlace(selectedItem, draggingOutline)) {
-                    selectedItem.place(env.getX() + draggingOffsetX, env.getY() + draggingOffsetY);
+                    XPoint env = transformMouse(e);
+                    double envX = env.getX() > environment.getWidth() ? environment.getWidth() : env.getX() < 0 ? 0 : env.getX();
+                    double envY = env.getY() > environment.getHeight() ? environment.getHeight() : env.getY() < 0 ? 0 : env.getY();
+                    selectedItem.place(envX + draggingOffsetX, envY + draggingOffsetY);
                 }
                 draggingOutline = null;
             }
